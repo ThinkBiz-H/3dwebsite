@@ -58,7 +58,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section ref="sectionEl" class="bg-white py-28">
+  <section ref="sectionEl" class="py-28">
     <div class="mx-auto max-w-6xl px-6 lg:px-10">
       <h2
         ref="headingEl"

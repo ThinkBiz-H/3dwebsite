@@ -2,6 +2,10 @@
 import { ref, onMounted } from "vue";
 import { revealHeading, revealUp } from "../../composables/useReveal";
 
+defineProps({
+  transparent: { type: Boolean, default: false },
+});
+
 const sectionEl = ref(null);
 const headingEl = ref(null);
 const gridEl = ref(null);
@@ -36,7 +40,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section ref="sectionEl" class="bg-slate-50 py-24">
+  <section ref="sectionEl" class="py-24" :class="transparent ? '' : 'bg-slate-50'">
     <div class="mx-auto max-w-7xl px-6 lg:px-10">
       
 

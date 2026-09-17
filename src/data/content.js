@@ -1,6 +1,6 @@
 export const nav = [
   { label: "Curriculum", href: "#features" },
-  { label: "Pricing", href: "#pricing" },
+
   { label: "Blog", href: "/blog" },
   { label: "Articles", href: "/articles" },
   { label: "About", href: "/about" },
@@ -278,20 +278,121 @@ export const ctaBanner = {
 };
 
 export const aboutHero = {
-  eyebrow: "Why we started this",
-  heading: "Crypto education without the noise.",
+  eyebrow: "ABOUT CRYPTOLEARNER",
+  heading: "We explain crypto. We don't sell it..",
   subtitle:
-    "We built Lumen Ledger because every course we tried assumed we already wanted to trade. We just wanted to understand.",
+    "CryptoLearner exists to help people understand cryptocurrency clearly enough to make their own decisions — safely, skeptically, and without pressure. We don't recommend coins. We don't predict prices. We don't accept payment to favor any exchange or token. If a page ever reads like a sales pitch, tell us — that's not what we're here to do.",
 };
 
 export const aboutStory = {
-  eyebrow: "Our story",
-  heading: "It started with a whiteboard and a frustrated friend.",
+  eyebrow: "Why we started this",
+  heading: "Because most crypto content picks a side we didn't want to pick",
   paragraphs: [
-    "In 2021, a friend asked one of our co-founders to explain what a blockchain actually was. Two hours and a very messy whiteboard later, neither of them could summarize it in a sentence.",
-    "That gap — between how blockchain is usually explained and how a genuine beginner actually learns — became the entire premise of Lumen Ledger.",
-    "We hired educators before we hired engineers, and every lesson is tested on people who have never opened a wallet before it ships.",
+    "Most crypto content online falls into one of two camps: it's trying to sell you something, or it's trying to scare you. Neither one actually helps a beginner.",
+    "We started CryptoLearner because we kept seeing the same thing happen — smart, careful people making decisions about crypto based on hype, fear, or a confusing YouTube video, simply because no one had explained it to them plainly.",
+    "So we built the site we wished existed: plain language, real risks stated clearly, and no agenda beyond helping you understand what you're actually looking at.",
   ],
+};
+
+export const editorialProcess = {
+  eyebrow: "How we write and review",
+  heading: "The same process, every single guide",
+  steps: [
+    {
+      title: "Research from primary sources",
+      description:
+        "We start with regulators, whitepapers, and academic material — not other blogs or forums.",
+    },
+    {
+      title: "A second reviewer checks it",
+      description:
+        "Before anything is published, someone with a relevant financial credential reviews it for accuracy and clarity.",
+    },
+    {
+      title: "We date everything",
+      description:
+        "Every guide shows when it was written and when it was last checked.",
+    },
+    {
+      title: "We recheck it regularly",
+      description:
+        "Crypto information can go stale within weeks. We re-review every guide at least every six months, sooner if the industry changes.",
+    },
+  ],
+  note: "If we get something wrong, we fix it and say so — see our correction policy below.",
+};
+
+export const aboutAuthors = {
+  eyebrow: "Who writes for CryptoLearner",
+  heading: "Real people, real credentials",
+  people: [
+    {
+      name: "Maria Ortiz",
+      credential: "CFA · 9 yrs financial writing",
+      bio: "Former equity research associate. Covers fundamentals, market structure, and how to evaluate an asset before buying it.",
+    },
+    {
+      name: "David Chen",
+      credential: "CFP · Fraud & security specialist",
+      bio: "Advises everyday consumers on financial fraud prevention. Leads our Safety & Scams coverage.",
+    },
+  ],
+  note: "Placeholder names shown for structure only. Replace with real author photos, names, and credentials before launch.",
+};
+
+export const neverDo = {
+  eyebrow: "What we will never do",
+  heading: "A short list, but we mean every line",
+  items: [
+    'We will never tell you a coin is "guaranteed" to go up.',
+    "We will never publish a price prediction.",
+    "We will never accept payment to favor one exchange, wallet, or token over another.",
+    "We will never bury a risk to make a guide sound more exciting.",
+    "We will never ask you for your seed phrase, password, or wallet keys — not in a comment, not in a chat, not ever.",
+  ],
+};
+
+export const correctionsPolicy = {
+  eyebrow: "Corrections policy",
+  heading: "We'd rather admit a mistake than protect our ego",
+  intro:
+    "If you spot something inaccurate or outdated, tell us. We log every correction publicly with the date and a short note on what changed. You can see our correction history",
+  linkLabel: "here",
+  linkHref: "#",
+  closing:
+    "That's the whole point of this site — learning together, in the open.",
+};
+
+export const aboutContact = {
+  eyebrow: "Get in touch",
+  heading: "Questions, corrections, or just want to say hello?",
+  subtitle: "We read every message ourselves.",
+  options: [
+    {
+      label: "Call",
+      title: "+1 (800) 555-1234",
+      detail: "Mon–Fri, 9am–6pm ET",
+      icon: "pulse",
+    },
+    {
+      label: "Chat",
+      title: "WhatsApp",
+      detail: "Usually a reply within an hour",
+      icon: "chat",
+    },
+    {
+      label: "Email",
+      title: "hello@cryptolearner.com",
+      detail: "We reply personally",
+      icon: "mail",
+    },
+  ],
+  safetyNote:
+    "We will never ask for your wallet keys, passwords, or payment over chat.",
+};
+
+export const closingQuote = {
+  text: "Thanks for taking the time to understand this world a little more carefully. That instinct — to learn before you leap — is exactly what will keep you safe here and everywhere else in crypto.",
 };
 
 export const missionVision = [
@@ -384,33 +485,119 @@ export const aboutCta = {
 };
 
 export const contactHero = {
-  eyebrow: "Get in touch",
-  heading: "We answer the basic questions too.",
+  eyebrow: "ABOUT CRYPTOLEARNER",
+  heading: "We explain crypto. We don't sell it.",
   subtitle:
-    "Whether it is a question about the curriculum, a partnership idea, or something that just is not working — a real person reads every message.",
+    "CryptoLearner exists to help people understand cryptocurrency clearly enough to make their own decisions — safely, skeptically, and without pressure. We don't recommend coins. We don't predict prices. We don't accept payment to favor any exchange or token. If a page ever reads like a sales pitch, tell us — that's not what we're here to do.",
 };
 
 export const contactInfo = [
   {
-    title: "Email us",
-    detail: "hello@lumenledger.com",
-    description:
-      "For general questions, we usually reply within one business day.",
-    icon: "chat",
-  },
-  {
-    title: "Call us",
-    detail: "+1 (555) 018-2044",
-    description: "Monday to Friday, 9am–6pm Eastern.",
+    title: "Call",
+    detail: "+1 (800) 555-1234",
+    description: "Mon–Fri, 9am–6pm ET.",
     icon: "pulse",
   },
   {
-    title: "Visit us",
-    detail: "148 Lafayette St, New York, NY",
-    description: "By appointment only — we are a small, mostly-remote team.",
-    icon: "map",
+    title: "Chat",
+    detail: "WhatsApp",
+    description: "Usually a reply within an hour.",
+    icon: "chat",
+  },
+  {
+    title: "Email",
+    detail: "hello@cryptolearner.com",
+    description: "",
+    icon: "mail",
   },
 ];
+
+export const contactStory = {
+  heading: "Why We Started This",
+  paragraphs: [
+    "Most crypto content online falls into one of two camps: it's trying to sell you something, or it's trying to scare you. Neither one actually helps a beginner.",
+    "We started CryptoLearner because we kept seeing the same thing happen — smart, careful people making decisions about crypto based on hype, fear, or a confusing YouTube video, simply because no one had explained it to them plainly.",
+    "So we built the site we wished existed: plain language, real risks stated clearly, and no agenda beyond helping you understand what you're actually looking at.",
+  ],
+};
+
+export const contactReviewProcess = {
+  heading: "How We Write and Review",
+  intro: "Every guide follows the same process, every time:",
+  steps: [
+    {
+      title: "Research from primary sources.",
+      description:
+        "We start with regulators, whitepapers, and academic material — not other blogs or forums.",
+    },
+    {
+      title: "A second reviewer checks it.",
+      description:
+        "Before anything is published, someone with a relevant financial credential reviews it for accuracy and clarity.",
+    },
+    {
+      title: "We date everything.",
+      description:
+        "Every guide shows when it was written and when it was last checked.",
+    },
+    {
+      title: "We recheck it regularly.",
+      description:
+        "Crypto information can go stale within weeks. We re-review every guide at least every six months, and sooner if something in the industry changes.",
+    },
+  ],
+  note: "If we get something wrong, we fix it and say so — see our correction policy below.",
+};
+
+export const contactWriters = {
+  heading: "Who Writes for CryptoLearner",
+  people: [
+    {
+      name: "Maria Ortiz",
+      credential: "CFA, 9 years in financial writing",
+      bio: "Former equity research associate. Covers fundamentals, market structure, and how to evaluate an asset before buying it.",
+    },
+    {
+      name: "David Chen",
+      credential: "CFP, fraud & security specialist",
+      bio: "Advises everyday consumers on financial fraud prevention. Leads our Safety & Scams coverage.",
+    },
+  ],
+  note: "Add real author bios and photos here before publishing — placeholder names shown for structure only.",
+};
+
+export const contactNeverDo = {
+  heading: "What We Will Never Do",
+  items: [
+    'We will never tell you a coin is "guaranteed" to go up.',
+    "We will never publish a price prediction.",
+    "We will never accept payment to favor one exchange, wallet, or token over another.",
+    "We will never bury a risk to make a guide sound more exciting.",
+    "We will never ask you for your seed phrase, password, or wallet keys — not in a comment, not in a chat, not ever.",
+  ],
+};
+
+export const contactCorrections = {
+  heading: "Corrections Policy",
+  intro:
+    "If you spot something inaccurate or outdated, tell us. We log every correction publicly with the date and a short note on what changed. You can see our correction history",
+  linkLabel: "here",
+  linkHref: "#",
+  closing:
+    "We'd rather admit a mistake quickly than protect our ego. That's the whole point of this site.",
+};
+
+export const contactGetInTouch = {
+  heading: "Get in Touch",
+  intro:
+    "Questions, corrections, or just want to say hello? We read every message ourselves.",
+  safetyNote:
+    "We will never ask for your wallet keys, passwords, or payment over chat.",
+};
+
+export const contactClosing = {
+  text: "Thanks for taking the time to understand this world a little more carefully. That instinct — to learn before you leap — is exactly what will keep you safe here and everywhere else in crypto.",
+};
 
 export const officeHours = [
   { day: "Monday – Friday", hours: "9:00am – 6:00pm ET" },

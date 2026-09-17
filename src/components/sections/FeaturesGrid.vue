@@ -26,19 +26,37 @@ onMounted(() => {
 </script>
 
 <template>
-  <section
-    id="features"
-    ref="sectionEl"
-    class="relative overflow-hidden bg-white py-28"
-  >
+  <section id="features" ref="sectionEl" class="relative overflow-hidden py-28">
     <!-- Background -->
     <div
       class="absolute left-1/2 top-0 h-96 w-96 -translate-x-1/2 rounded-full bg-blue-100/40 blur-3xl"
     />
 
     <div class="relative mx-auto max-w-7xl px-6 lg:px-10">
-      <!-- Heading -->
+      <div class="mx-auto max-w-3xl text-center">
+        <span
+          class="inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-4 py-1 text-sm font-semibold uppercase tracking-[0.25em] text-blue-700"
+        >
+          Benefits of Cryptocurrency
+        </span>
 
+        <h2
+          ref="headingEl"
+          class="mt-6 font-display text-4xl font-bold leading-tight text-slate-900 md:text-5xl"
+        >
+          The Good Side:
+          <span class="text-blue-600">Potential Benefits of Crypto</span>
+        </h2>
+
+        <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-600">
+          We're not here to talk you out of cryptocurrency—we're here to help
+          you understand it clearly. While crypto comes with risks, it also
+          offers genuine advantages that have attracted millions of users,
+          investors, and businesses worldwide. Here are some of the key benefits
+          people commonly point to.
+        </p>
+      </div>
+      <!-- Heading -->
       <!-- Grid -->
       <div ref="gridEl" class="mt-20 grid gap-7 md:grid-cols-2 xl:grid-cols-3">
         <GlowCard

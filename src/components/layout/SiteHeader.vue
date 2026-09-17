@@ -1,50 +1,51 @@
 <script setup>
-import { onMounted, onBeforeUnmount, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { gsap, ScrollTrigger } from '../../composables/gsapSetup'
-import { useLenis } from '../../composables/useLenis'
-import { useSiteNav } from '../../composables/useSiteNav'
-import { nav } from '../../data/content'
-import MagneticButton from '../ui/MagneticButton.vue'
+import { onMounted, onBeforeUnmount, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { gsap, ScrollTrigger } from "../../composables/gsapSetup";
+import { useLenis } from "../../composables/useLenis";
+import { useSiteNav } from "../../composables/useSiteNav";
+import { nav } from "../../data/content";
+import MagneticButton from "../ui/MagneticButton.vue";
+import logo from "../../assets/logo.svg";
 
-const headerEl = ref(null)
-const menuOpen = ref(false)
-const menuPanel = ref(null)
-const scrolled = ref(false)
-const { scrollTo } = useLenis()
-const route = useRoute()
-const router = useRouter()
-const { goTo: navigateTo } = useSiteNav()
+const headerEl = ref(null);
+const menuOpen = ref(false);
+const menuPanel = ref(null);
+const scrolled = ref(false);
+const { scrollTo } = useLenis();
+const route = useRoute();
+const router = useRouter();
+const { goTo: navigateTo } = useSiteNav();
 
-let st
+let st;
 
 onMounted(() => {
   st = ScrollTrigger.create({
     start: 40,
     onUpdate: (self) => {
-      scrolled.value = self.scroll() > 40
+      scrolled.value = self.scroll() > 40;
     },
-  })
-})
+  });
+});
 
-onBeforeUnmount(() => st?.kill())
+onBeforeUnmount(() => st?.kill());
 
 function goTo(href) {
-  menuOpen.value = false
-  navigateTo(href)
+  menuOpen.value = false;
+  navigateTo(href);
 }
 
 function goHome() {
-  menuOpen.value = false
-  if (route.path === '/') {
-    scrollTo(0)
+  menuOpen.value = false;
+  if (route.path === "/") {
+    scrollTo(0);
   } else {
-    router.push('/')
+    router.push("/");
   }
 }
 
 function toggleMenu() {
-  menuOpen.value = !menuOpen.value
+  menuOpen.value = !menuOpen.value;
 }
 </script>
 
@@ -52,10 +53,27 @@ function toggleMenu() {
   <header
     ref="headerEl"
     class="fixed inset-x-0 top-0 z-50 transition-[background,border-color,box-shadow] duration-500"
-    :class="scrolled ? 'glass border-b border-gray-900/5 shadow-soft' : 'border-b border-transparent'"
+    :class="
+      scrolled
+        ? 'glass border-b border-gray-900/5 shadow-soft'
+        : 'border-b border-transparent'
+    "
   >
-    <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-10">
-      <a href="/" data-cursor-hover class="font-display text-xl font-semibold tracking-tight text-gray-900" @click.prevent="goHome">Lumen Ledger</a>
+    <div
+      class="mx-auto flex h-24 max-w-7xl items-center justify-between px-6 lg:px-10"
+    >
+      <a
+        href="/"
+        data-cursor-hover
+        class="flex items-center shrink-0"
+        @click.prevent="goHome"
+      >
+        <img
+          :src="logo"
+          alt="Lumen Ledger"
+          class="h-16 lg:h-20 w-auto object-contain"
+        />
+      </a>
 
       <nav class="hidden items-center gap-9 md:flex">
         <a
@@ -71,7 +89,13 @@ function toggleMenu() {
       </nav>
 
       <div class="hidden md:block">
-        <MagneticButton as="a" href="#pricing" @click.prevent="goTo('#pricing')" data-cursor-hover class="!px-6 !py-3 text-xs">
+        <MagneticButton
+          as="a"
+          href="#pricing"
+          @click.prevent="goTo('#pricing')"
+          data-cursor-hover
+          class="!px-6 !py-3 text-xs"
+        >
           Start free
         </MagneticButton>
       </div>
@@ -81,8 +105,14 @@ function toggleMenu() {
         aria-label="Toggle menu"
         @click="toggleMenu"
       >
-        <span class="h-px w-6 bg-gray-900 transition-transform duration-300" :class="menuOpen && 'translate-y-[3.5px] rotate-45'" />
-        <span class="h-px w-6 bg-gray-900 transition-transform duration-300" :class="menuOpen && '-translate-y-[3.5px] -rotate-45'" />
+        <span
+          class="h-px w-6 bg-gray-900 transition-transform duration-300"
+          :class="menuOpen && 'translate-y-[3.5px] rotate-45'"
+        />
+        <span
+          class="h-px w-6 bg-gray-900 transition-transform duration-300"
+          :class="menuOpen && '-translate-y-[3.5px] -rotate-45'"
+        />
       </button>
     </div>
 
@@ -94,7 +124,11 @@ function toggleMenu() {
       leave-from-class="opacity-100 translate-y-0"
       leave-to-class="opacity-0 -translate-y-4"
     >
-      <div v-if="menuOpen" ref="menuPanel" class="glass-strong absolute inset-x-0 top-20 border-b border-gray-900/5 px-6 py-8 shadow-card md:hidden">
+      <div
+        v-if="menuOpen"
+        ref="menuPanel"
+        class="glass-strong absolute inset-x-0 top-20 border-b border-gray-900/5 px-6 py-8 shadow-card md:hidden"
+      >
         <nav class="flex flex-col gap-6">
           <a
             v-for="item in nav"
@@ -106,7 +140,12 @@ function toggleMenu() {
             {{ item.label }}
           </a>
         </nav>
-        <MagneticButton as="a" href="#pricing" class="mt-8 w-full" @click.prevent="goTo('#pricing')">
+        <MagneticButton
+          as="a"
+          href="#pricing"
+          class="mt-8 w-full"
+          @click.prevent="goTo('#pricing')"
+        >
           Start free
         </MagneticButton>
       </div>

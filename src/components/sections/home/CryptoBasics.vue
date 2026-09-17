@@ -55,7 +55,6 @@ onMounted(() => {
         >
           What is Cryptocurrency?
           <br />
-          <span class="text-slate-700">(In Plain Words)</span>
         </h2>
 
         <div class="mt-8 space-y-7 text-lg leading-9 text-slate-600">
@@ -190,7 +189,7 @@ onMounted(() => {
     <!-- Key terms -->
     <!-- How Crypto Trading Works -->
     <div class="mt-28">
-      <div class="max-w-3xl"> 
+      <div class="max-w-3xl">
         <h3
           class="font-display text-4xl font-bold leading-tight text-slate-900"
         >

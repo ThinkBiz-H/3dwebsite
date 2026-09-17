@@ -25,7 +25,7 @@ onMounted(() => {
 <template>
   <section
     ref="sectionEl"
-    class="relative overflow-hidden bg-slate-50 py-24 lg:py-32"
+    class="relative overflow-hidden py-24 lg:py-32"
   >
     <div class="mx-auto max-w-7xl px-6">
       <!-- Heading -->

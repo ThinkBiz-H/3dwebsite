@@ -14,7 +14,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section ref="sectionEl" class="relative bg-blue-50/40 px-6 py-16 lg:px-10">
+  <section ref="sectionEl" class="relative px-6 py-16 lg:px-10">
     <div class="mx-auto max-w-6xl">
       <p class="text-center text-sm font-semibold text-blue-700">{{ trustStrip.label }}</p>
 

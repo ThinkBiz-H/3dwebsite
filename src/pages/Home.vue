@@ -37,38 +37,40 @@ useSeoMeta({
 onMounted(async () => {
   await nextTick();
 
-  // The fixed #bg-layer holds exactly one flat color at any scroll position.
-  // For each color zone we run a single scrubbed tween whose scroll range
-  // spans from the previous zone's centered position to this zone's
-  // centered position ("center center" -> "center center"). Consecutive
-  // ranges share their boundary exactly (zone N's range ends where zone
-  // N+1's range begins), so the ranges tile the scroll distance with no
-  // gaps and no overlap: only one tween is ever "live" at a given scroll
-  // position, color always matches scroll progress continuously, and two
-  // colors are never blended or shown together.
-  const sections = gsap.utils.toArray("[data-bg]");
+  // Each [data-bg-color] wrapper owns one solid color scene. A section's
+  // "active range" runs from the moment its top edge crosses the viewport
+  // center to the moment its bottom edge does — and because sections sit
+  // flush against each other in the document, one section's bottom edge
+  // is the exact same point as the next section's top edge. That makes
+  // the ranges tile the scroll distance perfectly: no gaps, no overlap,
+  // so exactly one section is ever "active" at a time. onToggle only
+  // reacts when a section *becomes* active, in either scroll direction,
+  // which is what drives the single fade to that section's color. Colors
+  // are never scrubbed or blended — only ever crossfaded between two flat
+  // values, and any in-flight fade is replaced (never stacked) by the next.
+  const sections = gsap.utils.toArray("[data-bg-color]");
+  let activeColor = sections[0]?.dataset.bgColor ?? "#ffffff";
 
-  sections.forEach((section, i) => {
-    const prevSection = sections[i - 1];
-    const color = section.dataset.bg;
-    const prevColor = prevSection ? prevSection.dataset.bg : "#ffffff";
+  const activateColor = (color) => {
+    if (color === activeColor) return;
+    activeColor = color;
+    gsap.to(bg.value, {
+      backgroundColor: color,
+      duration: 0.7,
+      ease: "power2.inOut",
+      overwrite: true,
+    });
+  };
 
-    gsap.fromTo(
-      bg.value,
-      { backgroundColor: prevColor },
-      {
-        backgroundColor: color,
-        ease: "none",
-        immediateRender: false,
-        scrollTrigger: {
-          trigger: prevSection || section,
-          start: prevSection ? "center center" : "top bottom",
-          endTrigger: section,
-          end: "center center",
-          scrub: true,
-        },
+  sections.forEach((section) => {
+    ScrollTrigger.create({
+      trigger: section,
+      start: "top center",
+      end: "bottom center",
+      onToggle: (self) => {
+        if (self.isActive) activateColor(section.dataset.bgColor);
       },
-    );
+    });
   });
 
   ScrollTrigger.refresh();
@@ -80,46 +82,51 @@ onMounted(async () => {
 </script>
 
 <template>
-  <!-- Fullscreen color-zone background: one fixed layer behind all content,
-       whose backgroundColor is scroll-scrubbed by the [data-bg] sections
-       below. Never animate color on the sections themselves. -->
+  <!-- Fullscreen color-scene background: a single fixed layer behind every
+       section. It always holds exactly one flat color — never a gradient
+       or a blend of two. The [data-bg-color] wrappers below are the only
+       thing that ever changes it, and only via the ScrollTrigger logic
+       above; the sections themselves stay fully transparent so this layer
+       is what the viewport actually shows. -->
   <div id="bg-layer" ref="bg" style="background-color: #ffffff"></div>
 
-  <HeroSection />
+  <section data-bg-color="#ffffff">
+    <HeroSection />
+  </section>
 
-  <section data-bg="#DCEEFF">
+  <section data-bg-color="#C1E1FB">
     <CryptoBasics />
   </section>
 
-  <section data-bg="#EADFFF">
+  <section data-bg-color="#EADFFF">
     <BenefitsRisks />
   </section>
 
-  <section data-bg="#FFF4D8">
+  <section data-bg-color="#FFF4D8">
     <ProsVsCons />
   </section>
 
-  <section data-bg="#DDF8EA">
+  <section data-bg-color="#DDF8EA">
     <FeaturesGrid />
   </section>
 
-  <section data-bg="#E8F3FF">
-    <StatsCounter />
+  <section data-bg-color="#E8F3FF">
+    <StatsCounter transparent />
   </section>
 
-  <section data-bg="#FFF7E8">
+  <section data-bg-color="#FFF7E8">
     <SafetyChecklist />
   </section>
 
-  <section data-bg="#F3E5FF">
+  <section data-bg-color="#F3E5FF">
     <AnimatedCards />
   </section>
 
-  <section data-bg="#F5F8FC">
+  <section data-bg-color="#F5F8FC">
     <TrustStrip />
   </section>
 
-  <section data-bg="#FFFFFF">
+  <section data-bg-color="#FFFFFF">
     <FaqSection />
   </section>
 </template>
