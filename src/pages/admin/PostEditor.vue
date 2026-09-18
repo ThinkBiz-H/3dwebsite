@@ -38,6 +38,7 @@ const form = reactive({
   description: '',
   content: '',
   category: '',
+  difficulty: '',
   coverImage: '',
   author: '',
   tags: '',
@@ -89,6 +90,7 @@ async function loadExisting() {
     description: post.description || '',
     content: post.content || '',
     category: post.category || '',
+    difficulty: post.difficulty || '',
     coverImage: post.coverImage || '',
     author: post.author || '',
     tags: Array.isArray(post.tags) ? post.tags.join(', ') : '',
@@ -114,6 +116,7 @@ function buildPayload() {
     description: form.description.trim() || stripHtml(form.content, 160),
     content: form.content,
     category: form.category.trim(),
+    difficulty: form.difficulty,
     coverImage: form.coverImage,
     author: form.author.trim() || 'Lumen Ledger Team',
     readingTime: readingTime.value,
@@ -333,6 +336,15 @@ onMounted(() => {
           <div>
             <label class="text-xs font-medium text-gray-500">Category</label>
             <input v-model="form.category" type="text" placeholder="Foundations" class="mt-1.5 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-blue-400" />
+          </div>
+          <div>
+            <label class="text-xs font-medium text-gray-500">Difficulty</label>
+            <select v-model="form.difficulty" class="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-blue-400">
+              <option value="">Not set</option>
+              <option value="Beginner">Beginner</option>
+              <option value="Intermediate">Intermediate</option>
+              <option value="Advanced">Advanced</option>
+            </select>
           </div>
           <div>
             <label class="text-xs font-medium text-gray-500">Author</label>

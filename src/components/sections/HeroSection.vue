@@ -133,7 +133,7 @@ onBeforeUnmount(() => {
 
 <template>
   <section
-    class="relative flex min-h-[100svh] items-center overflow-hidden bg-white px-6 pt-28 lg:px-10"
+    class="relative overflow-hidden bg-white min-h-screen flex items-start px-6 pt-20 pb-16 sm:pt-24 md:pt-28 lg:min-h-screen lg:items-center lg:px-10"
   >
     <canvas
       ref="canvasEl"
@@ -148,7 +148,7 @@ onBeforeUnmount(() => {
     />
 
     <div
-      class="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-16 lg:grid-cols-[1.1fr,0.9fr]"
+      class="relative z-10 mx-auto w-full max-w-7xl grid gap-16 pt-6 lg:pt-0 items-center lg:grid-cols-[1.1fr,0.9fr]"
     >
       <div>
         <p

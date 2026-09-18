@@ -1,21 +1,19 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { getArticles } from '../services/articles'
-import { usePostListing } from '../composables/usePostListing'
-import { useSeoMeta, SITE_URL } from '../composables/useSeoMeta'
-import Breadcrumbs from '../components/ui/Breadcrumbs.vue'
-import ArticlesHero from '../components/articles/ArticlesHero.vue'
-import FeaturedStory from '../components/articles/FeaturedStory.vue'
-import ArticleCard from '../components/articles/ArticleCard.vue'
-import EditorsPicks from '../components/articles/EditorsPicks.vue'
-import ArticleTimeline from '../components/articles/ArticleTimeline.vue'
-import TopicInsights from '../components/articles/TopicInsights.vue'
-import EmptyState from '../components/posts/EmptyState.vue'
-import CategoryFilter from '../components/posts/CategoryFilter.vue'
-import TagFilter from '../components/posts/TagFilter.vue'
-import SearchInput from '../components/posts/SearchInput.vue'
-import Pagination from '../components/posts/Pagination.vue'
-import NewsletterSignup from '../components/posts/NewsletterSignup.vue'
+import { computed, nextTick, onMounted, ref, watch } from "vue";
+import { getArticles } from "../services/articles";
+import { usePostListing } from "../composables/usePostListing";
+import { useSeoMeta, SITE_URL } from "../composables/useSeoMeta";
+import { gsap } from "../composables/gsapSetup";
+import Sidebar from "../components/sections/blog/Sidebar.vue";
+import SearchBar from "../components/sections/blog/SearchBar.vue";
+import LoadMore from "../components/sections/blog/LoadMore.vue";
+import EmptyState from "../components/sections/blog/EmptyState.vue";
+import TrendingTicker from "../components/feed/TrendingTicker.vue";
+import FeedFilters from "../components/feed/FeedFilters.vue";
+import FeedCard from "../components/feed/FeedCard.vue";
+import FeedCardSkeleton from "../components/feed/FeedCardSkeleton.vue";
+
+const PAGE_STEP = 6;
 
 const {
   posts,
@@ -23,156 +21,260 @@ const {
   error,
   search,
   category,
-  tag,
-  allTags,
   sortBy,
-  page,
   categories,
-  featured,
-  featuredPosts,
   isFiltering,
-  paged,
-  totalPages,
-} = usePostListing(getArticles)
+  trending,
+} = usePostListing(getArticles);
 
-// The first featured post becomes the big cover story; any other posts an
-// editor also marked "featured" become the picks list, rather than pulling
-// arbitrary posts — keeps it consistent with `latest` excluding all of them.
-const editorsPicks = computed(() => featuredPosts.value.slice(1, 5))
+// The sidebar's "category" rail; 'all' and 'featured' are structural, every
+// other value is a real, dynamically-discovered category from the articles
+// an admin has actually published — nothing here is hardcoded.
+const activeSidebar = ref("all");
+const sidebarCategories = computed(() =>
+  categories.value.filter((c) => c !== "all"),
+);
 
-const showFilters = ref(false)
+const visibleCount = ref(PAGE_STEP);
+const loadingMore = ref(false);
 
-// "Large / minimal / default" rotation so the research list doesn't repeat
-// the same card shape down the page.
-function cardVariant(index) {
-  if (index % 4 === 0) return 'large'
-  if (index % 4 === 2) return 'minimal'
-  return 'default'
+watch(activeSidebar, (val) => {
+  category.value = val === "featured" ? "all" : val;
+});
+
+watch([search, category, sortBy, activeSidebar], () => {
+  visibleCount.value = PAGE_STEP;
+});
+
+// A flat feed shows every article, unlike Blog's hero+grid split — so this
+// intentionally does NOT reuse `usePostListing`'s `latest`, which silently
+// excludes whichever post its own hero-fallback logic promotes to
+// "featured" when nothing was explicitly flagged.
+const feedPosts = computed(() => {
+  const q = search.value.trim().toLowerCase();
+  const base = posts.value.filter((p) => {
+    if (
+      q &&
+      !p.title?.toLowerCase().includes(q) &&
+      !p.description?.toLowerCase().includes(q)
+    )
+      return false;
+    if (category.value !== "all" && p.category !== category.value) return false;
+    return true;
+  });
+
+  const sorted = [...base];
+  if (sortBy.value === "popular") {
+    sorted.sort((a, b) => (b.views || 0) - (a.views || 0));
+  } else if (sortBy.value === "trending") {
+    const score = (p) => {
+      const ageDays = p.createdAt
+        ? Math.max(1, (Date.now() - p.createdAt.getTime()) / 86400000)
+        : 1;
+      return (p.views || 0) / ageDays;
+    };
+    sorted.sort((a, b) => score(b) - score(a));
+  } else {
+    sorted.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+  }
+  return sorted;
+});
+
+const displayPosts = computed(() => {
+  if (activeSidebar.value === "featured")
+    return posts.value.filter((p) => p.featured);
+  return feedPosts.value;
+});
+
+const visiblePosts = computed(() =>
+  displayPosts.value.slice(0, visibleCount.value),
+);
+const hasMore = computed(() => visibleCount.value < displayPosts.value.length);
+
+// The ticker surfaces whatever is actually trending right now — top by view
+// count, computed from real Firestore data, never a fixed list.
+const tickerItems = computed(() =>
+  trending.value.slice(0, 8).map((p) => ({
+    id: p.id,
+    slug: p.slug,
+    label: p.title,
+    meta: `${(p.views || 0).toLocaleString()} views`,
+  })),
+);
+
+function loadMore() {
+  loadingMore.value = true;
+  setTimeout(() => {
+    visibleCount.value += PAGE_STEP;
+    loadingMore.value = false;
+  }, 250);
 }
 
 function clearFilters() {
-  search.value = ''
-  category.value = 'all'
-  tag.value = 'all'
+  search.value = "";
+  sortBy.value = "newest";
+  activeSidebar.value = "all";
 }
 
+const headerEl = ref(null);
+const feedEl = ref(null);
+
+onMounted(() => {
+  gsap.fromTo(
+    headerEl.value,
+    { opacity: 0, y: 16 },
+    { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" },
+  );
+});
+
+watch(posts, (val) => {
+  console.log(
+    "DEBUG_POSTS",
+    JSON.stringify(
+      val.map((p) => ({
+        id: p.id,
+        slug: p.slug,
+        title: p.title?.slice(0, 30),
+        featured: p.featured,
+        published: p.published,
+        category: p.category,
+        createdAt: p.createdAt,
+      })),
+    ),
+  );
+  console.log(
+    "DEBUG_LATEST_LEN",
+    latest.value.length,
+    "DISPLAY_LEN",
+    displayPosts.value.length,
+  );
+});
+
+// Cards fade+stagger in one by one whenever the visible set changes — a
+// search, a filter switch, a "Load more" batch — not just once on scroll.
+watch(
+  visiblePosts,
+  async () => {
+    await nextTick();
+    const cards = feedEl.value?.querySelectorAll("[data-feed-card]");
+    if (!cards?.length) return;
+    gsap.fromTo(
+      cards,
+      { opacity: 0, y: 28 },
+      { opacity: 1, y: 0, duration: 0.6, ease: "power3.out", stagger: 0.1 },
+    );
+  },
+  { immediate: true },
+);
+
 useSeoMeta(() => ({
-  title: 'Articles',
-  description: 'Deeper, reference-style articles on how blockchain, custody, and on-chain markets actually work.',
-  path: '/articles',
+  title: "Articles",
+  description:
+    "In-depth, plain-language articles on blockchain, wallets, and digital assets from the Lumen Ledger team.",
+  path: "/articles",
   jsonLd: {
-    '@context': 'https://schema.org',
-    '@type': 'CollectionPage',
-    name: 'Lumen Ledger Articles',
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Lumen Ledger Articles",
     url: `${SITE_URL}/articles`,
   },
-}))
+}));
 </script>
 
 <template>
-  <ArticlesHero
-    eyebrow="Reference reading"
-    heading="Articles worth bookmarking."
-    subtitle="Longer, deeper pieces for when a short lesson is not quite enough."
-    :count="loading ? 0 : posts.length"
-  />
-
-  <div class="space-y-24 py-24 sm:space-y-28">
-    <section v-if="!loading && featured && !isFiltering" class="mx-auto max-w-7xl px-6 lg:px-10">
-      <FeaturedStory :post="featured" />
-    </section>
-
-    <ArticleTimeline v-if="!loading && posts.length > 3 && !isFiltering" :posts="posts" />
-
-    <TopicInsights v-if="!loading && !isFiltering" :posts="posts" />
-
-    <section class="relative mx-auto max-w-7xl px-6 lg:px-10">
-      <Breadcrumbs :items="[{ label: 'Articles' }]" class="mb-8" />
-
-      <div class="border-t border-slate-200 pt-10">
-        <p class="text-xs font-semibold uppercase tracking-[0.25em] text-cyan-700">The archive</p>
-        <h2 class="mt-2 font-display text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Latest research</h2>
-      </div>
-
-      <div class="mt-8 flex flex-col gap-4 border-b border-slate-200 pb-8 sm:flex-row sm:items-center sm:justify-between">
-        <CategoryFilter v-model="category" :categories="categories" />
-        <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
-          <div class="sm:w-64">
-            <SearchInput v-model="search" placeholder="Search articles…" />
-          </div>
-          <button
-            type="button"
-            data-cursor-hover
-            class="flex items-center gap-2 rounded-full border px-4 py-2.5 text-sm font-medium transition-all duration-300"
-            :class="showFilters ? 'border-blue-600 bg-blue-600 text-white' : 'border-slate-200 bg-white text-gray-600 hover:border-slate-300'"
-            @click="showFilters = !showFilters"
-          >
-            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" class="h-4 w-4">
-              <path d="M3 5h14M6 10h8M8.5 15h3" />
-            </svg>
-            Advanced filters
-          </button>
-        </div>
-      </div>
-
-      <div class="grid transition-[grid-template-rows] duration-500 ease-out" :style="{ gridTemplateRows: showFilters ? '1fr' : '0fr' }">
-        <div class="overflow-hidden">
-          <div class="flex flex-col gap-4 py-6 sm:flex-row sm:items-center sm:justify-between">
-            <TagFilter v-model="tag" :tags="allTags" />
-            <select
-              v-model="sortBy"
-              class="w-fit rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm text-gray-600 outline-none focus:border-blue-400"
-            >
-              <option value="newest">Newest first</option>
-              <option value="oldest">Oldest first</option>
-              <option value="popular">Most read</option>
-              <option value="az">A–Z</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <p v-if="error" class="mt-10 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">{{ error }}</p>
-
-      <div class="mt-4 grid grid-cols-1 gap-12 lg:grid-cols-[1fr,280px]">
+  <div class="bg-[#F7F9FC] pt-28 pb-10 sm:pt-32 sm:pb-14">
+    <div class="mx-auto max-w-[1500px] px-6 lg:px-10">
+      <div
+        ref="headerEl"
+        class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between"
+      >
         <div>
-          <div v-if="loading" class="space-y-8 pt-8">
-            <div v-for="i in 4" :key="i" class="grid grid-cols-1 gap-5 sm:grid-cols-[220px,1fr] sm:gap-8">
-              <div class="aspect-[16/11] animate-pulse rounded-xl bg-slate-100" />
-              <div class="space-y-3 py-2">
-                <div class="h-3 w-24 animate-pulse rounded-full bg-slate-100" />
-                <div class="h-6 w-3/4 animate-pulse rounded-full bg-slate-100" />
-                <div class="h-4 w-full animate-pulse rounded-full bg-slate-100" />
-              </div>
-            </div>
+          <div class="flex items-center gap-3">
+            <h1
+              class="font-display text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"
+            >
+              Articles
+            </h1>
+            <span
+              class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-gray-500 shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
+            >
+              {{ loading ? "…" : posts.length }} Reports
+            </span>
+          </div>
+          <p class="mt-2 max-w-lg text-sm leading-relaxed text-gray-500">
+            In-depth, plain-language research on blockchain, wallets, and
+            digital assets.
+          </p>
+        </div>
+
+        <div class="sm:w-80">
+          <SearchBar v-model="search" placeholder="Search articles…" />
+        </div>
+      </div>
+
+      <TrendingTicker
+        v-if="tickerItems.length"
+        :items="tickerItems"
+        class="mt-8"
+      />
+
+      <p
+        v-if="error"
+        class="mt-8 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800"
+        role="alert"
+      >
+        {{ error }}
+      </p>
+
+      <div class="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-[280px_1fr]">
+        <Sidebar
+          v-model="activeSidebar"
+          :categories="sidebarCategories"
+          :posts="posts"
+        />
+
+        <div class="min-w-0">
+          <FeedFilters v-model="sortBy" />
+
+          <div v-if="loading" class="mt-6 space-y-8">
+            <FeedCardSkeleton v-for="i in 3" :key="i" />
           </div>
 
           <EmptyState
-            v-else-if="!paged.length"
-            :title="isFiltering ? 'No articles match your filters.' : 'No articles yet.'"
-            :message="isFiltering ? 'Try a different search term or clear your filters.' : 'Longer reference pieces will show up here as soon as they’re published.'"
+            v-else-if="!visiblePosts.length"
+            :title="
+              isFiltering || activeSidebar !== 'all'
+                ? 'No articles found'
+                : 'No articles yet'
+            "
+            :message="
+              isFiltering || activeSidebar !== 'all'
+                ? 'Try a different search term or clear your filters.'
+                : 'New reports will show up here as soon as they’re published.'
+            "
             @clear="clearFilters"
           >
-            <template v-if="isFiltering" #action>Clear filters</template>
+            <template v-if="isFiltering || activeSidebar !== 'all'" #action
+              >Clear filters</template
+            >
           </EmptyState>
 
           <template v-else>
-            <div>
-              <ArticleCard v-for="(post, i) in paged" :key="post.id" :post="post" :variant="cardVariant(i)" />
+            <div ref="feedEl" class="mt-6 space-y-8">
+              <FeedCard
+                v-for="post in visiblePosts"
+                :key="post.id"
+                :post="post"
+                data-feed-card
+              />
             </div>
-            <div class="mt-10">
-              <Pagination v-model="page" :total-pages="totalPages" />
+
+            <div v-if="hasMore" class="mt-10 flex justify-center">
+              <LoadMore :loading="loadingMore" @click="loadMore" />
             </div>
           </template>
         </div>
-
-        <aside class="space-y-10">
-          <EditorsPicks :posts="editorsPicks" />
-          <div class="border-t border-slate-200 pt-8">
-            <NewsletterSignup source="articles-sidebar" compact />
-          </div>
-        </aside>
       </div>
-    </section>
+    </div>
   </div>
 </template>

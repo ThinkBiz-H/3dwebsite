@@ -1,7 +1,6 @@
 export const nav = [
-  { label: "Curriculum", href: "#features" },
+  { label: "Home", href: "/" },
 
-  { label: "Blog", href: "/blog" },
   { label: "Articles", href: "/articles" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
@@ -831,9 +830,9 @@ export const footer = {
     {
       title: "Resources",
       links: [
-        { label: "Blog", href: "/blog" },
+        { label: "Home", href: "/" },
         { label: "Articles", href: "/articles" },
-        { label: "Glossary", href: "#" },
+        { label: "Glossary", href: "/glossary" },
         { label: "Help Center", href: "/contact" },
       ],
     },

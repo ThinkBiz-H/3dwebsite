@@ -88,6 +88,7 @@ onMounted(async () => {
        thing that ever changes it, and only via the ScrollTrigger logic
        above; the sections themselves stay fully transparent so this layer
        is what the viewport actually shows. -->
+
   <div id="bg-layer" ref="bg" style="background-color: #ffffff"></div>
 
   <section data-bg-color="#ffffff">

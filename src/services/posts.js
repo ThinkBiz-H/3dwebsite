@@ -97,7 +97,16 @@ export function createPostsService(collectionName) {
     updateDoc(doc(db, collectionName, id), { views: increment(1) }).catch(() => {})
   }
 
-  return { list, getById, getBySlug, slugExists, create, update, remove, incrementViews }
+  /** Fire-and-forget like counter, mirroring incrementViews — the reader's own liked/unliked state is tracked client-side (see useLikes.js). */
+  function incrementLikes(id) {
+    updateDoc(doc(db, collectionName, id), { likes: increment(1) }).catch(() => {})
+  }
+
+  function decrementLikes(id) {
+    updateDoc(doc(db, collectionName, id), { likes: increment(-1) }).catch(() => {})
+  }
+
+  return { list, getById, getBySlug, slugExists, create, update, remove, incrementViews, incrementLikes, decrementLikes }
 }
 
 function normalize(snap) {
@@ -106,6 +115,7 @@ function normalize(snap) {
     id: snap.id,
     ...data,
     views: data.views || 0,
+    likes: data.likes || 0,
     faqs: Array.isArray(data.faqs) ? data.faqs : [],
     keyTakeaways: Array.isArray(data.keyTakeaways) ? data.keyTakeaways : [],
     createdAt: data.createdAt?.toDate ? data.createdAt.toDate() : null,

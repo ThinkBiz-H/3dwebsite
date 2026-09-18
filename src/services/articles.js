@@ -10,3 +10,5 @@ export const createArticle = articles.create
 export const updateArticle = articles.update
 export const deleteArticle = articles.remove
 export const incrementArticleViews = articles.incrementViews
+export const incrementArticleLikes = articles.incrementLikes
+export const decrementArticleLikes = articles.decrementLikes
