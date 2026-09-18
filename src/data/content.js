@@ -805,50 +805,51 @@ export const trustStrip = {
 };
 
 export const footer = {
-  brand: "Lumen Ledger",
-  tagline: "A calmer way to understand crypto.",
+  brand: "CryptoLearn",
+  tagline: "Making Crypto Easy to Understand.",
   columns: [
-    {
-      title: "Curriculum",
-      links: [
-        { label: "Foundations", href: "#features" },
-        { label: "Wallets & Custody", href: "#features" },
-        { label: "On-Chain Data", href: "#features" },
-        { label: "Tokens & Contracts", href: "#features" },
-        { label: "Risk & Sizing", href: "#features" },
-      ],
-    },
     {
       title: "Company",
       links: [
+        { label: "Home", href: "/" },
+        { label: "Articles", href: "/articles" },
         { label: "About", href: "/about" },
         { label: "Contact", href: "/contact" },
-        { label: "Careers", href: "#" },
-        { label: "Press", href: "#" },
       ],
     },
     {
       title: "Resources",
       links: [
-        { label: "Home", href: "/" },
-        { label: "Articles", href: "/articles" },
+        { label: "Getting Started", href: "/getting-started" },
+        { label: "Safety", href: "/safety" },
+        { label: "Coins", href: "/coins" },
+        { label: "Exchanges", href: "/exchanges" },
+        { label: "Taxes", href: "/taxes" },
         { label: "Glossary", href: "/glossary" },
-        { label: "Help Center", href: "/contact" },
       ],
     },
     {
       title: "Legal",
       links: [
-        { label: "Privacy", href: "#" },
-        { label: "Terms", href: "#" },
-        { label: "Disclosures", href: "#" },
+        {
+          label: "Privacy",
+          href: "/privacy",
+        },
+        {
+          label: "Terms",
+          href: "/terms",
+        },
+        {
+          label: "Disclosures",
+          href: "/disclosures",
+        },
       ],
     },
   ],
   legal:
     "© " +
     new Date().getFullYear() +
-    " Lumen Ledger. Educational content only — not financial advice.",
+    " CryptoLearn . Educational content only — not financial advice.",
 };
 export const prosCons = {
   heading: "Pros vs. Cons, Side by Side",

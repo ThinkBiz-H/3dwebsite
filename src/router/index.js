@@ -95,27 +95,63 @@ const routes = [
   },
   {
     path: "/getting-started",
+    name: "getting-started",
     component: () => import("../views/Learn.vue"),
   },
   {
     path: "/safety",
+    name: "safety",
     component: () => import("../views/Safety.vue"),
   },
   {
     path: "/coins",
+    name: "coins",
     component: () => import("../views/coin.vue"),
   },
   {
     path: "/exchanges",
+    name: "exchanges",
     component: () => import("../views/Exchanges.vue"),
   },
   {
     path: "/taxes",
+    name: "taxes",
     component: () => import("../views/Taxes.vue"),
   },
   {
     path: "/glossary",
+    name: "glossary",
     component: () => import("../views/Glossary.vue"),
+  },
+  {
+    path: "/privacy",
+    name: "privacy",
+    component: () => import("../views/Privacy.vue"),
+  },
+  {
+    path: "/terms",
+    name: "terms",
+    component: () => import("../views/Terms.vue"),
+  },
+  {
+    path: "/disclosures",
+    name: "disclosures",
+    component: () => import("../views/Disclosures.vue"),
+  },
+  {
+    path: "/privacy",
+    name: "privacy",
+    component: () => import("../views/Privacy.vue"),
+  },
+  {
+    path: "/terms",
+    name: "terms",
+    component: () => import("../views/Terms.vue"),
+  },
+  {
+    path: "/disclosures",
+    name: "disclosures",
+    component: () => import("../views/Disclosures.vue"),
   },
 ];
 
