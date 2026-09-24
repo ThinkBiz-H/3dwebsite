@@ -89,6 +89,26 @@ const routes = [
   },
 
   {
+    path: "/admin/guides",
+    name: "admin-guides",
+    component: () => import("../pages/admin/GuideCardList.vue"),
+    meta: { layout: "admin", requiresAuth: true },
+  },
+  {
+    path: "/admin/guides/new",
+    name: "admin-guide-new",
+    component: () => import("../pages/admin/GuideCardEditor.vue"),
+    meta: { layout: "admin", requiresAuth: true },
+  },
+  {
+    path: "/admin/guides/:id/edit",
+    name: "admin-guide-edit",
+    component: () => import("../pages/admin/GuideCardEditor.vue"),
+    props: (route) => ({ id: route.params.id }),
+    meta: { layout: "admin", requiresAuth: true },
+  },
+
+  {
     path: "/:pathMatch(.*)*",
     name: "not-found",
     component: () => import("../pages/NotFound.vue"),

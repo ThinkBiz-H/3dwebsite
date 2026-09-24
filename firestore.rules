@@ -1,0 +1,33 @@
+rules_version = '2';
+
+// Reference rules for the new `guideCards` collection — this repo has no
+// Firebase CLI scaffold (no firebase.json, no existing firestore.rules), so
+// nothing here deploys automatically. Paste the `guideCards` block below
+// into your project's rules in the Firebase Console (Firestore Database →
+// Rules), merging it alongside whatever you already have for `blogs` and
+// `articles`. The app has no admin custom-claims/roles system — every
+// signed-in Firebase Auth user is treated as an admin, matching how the
+// existing admin panel already gates access (see src/stores/auth.js) — so
+// these rules follow the same "any signed-in user" model.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /guideCards/{cardId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    // Existing collections, included for completeness so this file can
+    // become your full rules set if you don't have one yet — remove this
+    // comment block if you already manage `blogs`/`articles` rules elsewhere.
+    match /blogs/{postId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    match /articles/{postId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+  }
+}

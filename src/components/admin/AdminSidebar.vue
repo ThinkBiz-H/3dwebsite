@@ -10,6 +10,7 @@ const links = [
   { to: { name: 'admin-dashboard' }, label: 'Dashboard', icon: 'grid' },
   { to: { name: 'admin-blogs' }, label: 'Blogs', icon: 'book' },
   { to: { name: 'admin-articles' }, label: 'Articles', icon: 'file' },
+  { to: { name: 'admin-guides' }, label: 'Guide Cards', icon: 'cards' },
 ]
 
 function isActive(to) {
@@ -47,6 +48,8 @@ async function onLogout() {
           <path v-if="link.icon === 'book'" d="M20 5.5C20 4.67 19.33 4 18.5 4H12v16h6.5a1.5 1.5 0 0 0 1.5-1.5v-13Z" />
           <path v-if="link.icon === 'file'" d="M6 3.5h8l4 4v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-16a1 1 0 0 1 1-1Z" />
           <path v-if="link.icon === 'file'" d="M8 12h8M8 16h8M8 8h4" />
+          <rect v-if="link.icon === 'cards'" x="3.5" y="4.5" width="13" height="9" rx="1.8" transform="rotate(-8 10 9)" />
+          <rect v-if="link.icon === 'cards'" x="5.5" y="10.5" width="15" height="9" rx="1.8" />
         </svg>
         {{ link.label }}
       </router-link>

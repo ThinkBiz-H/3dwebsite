@@ -1,5 +1,6 @@
 <script setup>
-import { nextTick, onBeforeUnmount, ref, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue'
+import { sanitizeArticleHtml } from '../../composables/sanitizeArticleHtml'
 import hljs from 'highlight.js/lib/core'
 import javascript from 'highlight.js/lib/languages/javascript'
 import typescript from 'highlight.js/lib/languages/typescript'
@@ -27,6 +28,11 @@ const props = defineProps({
   html: { type: String, default: '' },
 })
 
+// Sanitized independently of whatever the caller already did — a component
+// that renders arbitrary HTML via v-html should never assume an upstream
+// step remembered to sanitize it first.
+const sanitizedHtml = computed(() => sanitizeArticleHtml(props.html))
+
 const contentEl = ref(null)
 const zoomSrc = ref('')
 const zoomAlt = ref('')
@@ -53,7 +59,6 @@ function enhance() {
   root.querySelectorAll('img').forEach((img) => {
     if (img.closest('figure') || img.closest('.content-gallery')) return
     const figure = document.createElement('figure')
-    figure.className = 'not-prose my-9'
     img.classList.add('cursor-zoom-in', 'transition-transform', 'duration-500', 'hover:scale-[1.01]')
     img.parentNode.insertBefore(figure, img)
     figure.appendChild(img)
@@ -61,10 +66,19 @@ function enhance() {
     const caption = img.getAttribute('alt')
     if (caption) {
       const figcaption = document.createElement('figcaption')
-      figcaption.className = 'mt-3 text-center text-sm italic text-gray-400'
       figcaption.textContent = caption
       figure.appendChild(figcaption)
     }
+  })
+
+  // Tables scroll horizontally on narrow screens instead of overflowing or
+  // squashing columns unreadably.
+  root.querySelectorAll('table').forEach((table) => {
+    if (table.closest('.table-scroll')) return
+    const wrapper = document.createElement('div')
+    wrapper.className = 'table-scroll'
+    table.parentNode.insertBefore(wrapper, table)
+    wrapper.appendChild(table)
   })
 
   // Fade+lift every top-level block in as it scrolls into view.
@@ -102,7 +116,7 @@ function onKeydown(e) {
 }
 
 watch(
-  () => props.html,
+  sanitizedHtml,
   async () => {
     await nextTick()
     enhance()
@@ -120,8 +134,8 @@ onBeforeUnmount(() => {
 <template>
   <div
     ref="contentEl"
-    class="rich-content prose prose-slate max-w-none prose-headings:font-display prose-headings:tracking-tight prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline"
-    v-html="html"
+    class="article-content"
+    v-html="sanitizedHtml"
     @click="onContentClick"
   />
 
@@ -155,62 +169,3 @@ onBeforeUnmount(() => {
     </Transition>
   </Teleport>
 </template>
-
-<style scoped>
-.rich-content :deep(p:first-of-type::first-letter) {
-  float: left;
-  margin-right: 0.75rem;
-  padding-top: 0.1em;
-  font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
-  font-weight: 700;
-  font-size: 4.5rem;
-  line-height: 0.85;
-  color: #2563eb;
-}
-
-/* Flat callout boxes — no gradients, per the article page's design system. */
-.rich-content :deep([data-callout]) {
-  box-shadow: none;
-}
-.rich-content :deep([data-callout][data-variant='info']) {
-  background: #eff6ff !important;
-}
-.rich-content :deep([data-callout][data-variant='warning']) {
-  background: #fffbeb !important;
-}
-.rich-content :deep([data-callout][data-variant='success']) {
-  background: #ecfeff !important;
-}
-.rich-content :deep([data-callout][data-variant='error']) {
-  background: #fef2f2 !important;
-}
-
-.rich-content :deep(blockquote) {
-  border-left: 3px solid #2563eb;
-  background: transparent;
-  font-style: italic;
-  color: #1f2937;
-}
-
-.rich-content :deep([data-pull-quote]) {
-  background: #f8fafc;
-}
-.rich-content :deep([data-pull-quote]::after) {
-  background: #2563eb;
-}
-
-.rich-content :deep(pre) {
-  background: #282c34 !important;
-}
-.rich-content :deep(pre code.hljs) {
-  background: transparent;
-  padding: 0;
-}
-
-.rich-content :deep(.content-chart) {
-  background: #f8fafc;
-}
-.rich-content :deep(.content-chart__bars span) {
-  background: #2563eb;
-}
-</style>

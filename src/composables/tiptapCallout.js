@@ -1,10 +1,15 @@
 import { Node, mergeAttributes } from '@tiptap/core'
 
 /**
- * A simple wrapping block for "callout" boxes (info/warning/success).
- * Renders as <div data-callout data-variant="...">, styled globally in
- * style.css so the same markup looks right whether it comes from the
- * editor or straight out of Firestore on the public post page.
+ * A simple wrapping block for "callout" boxes (info/warning/success/error).
+ * Always renders as <div data-callout data-variant="...">, styled in
+ * article-content.css so the same markup looks right whether it comes from
+ * the editor or straight out of Firestore on the public post page.
+ *
+ * Also recognizes plain WordPress-style `<div class="info">` (etc.) markup
+ * on the way in — e.g. hand-written or pasted HTML — normalizing it to the
+ * same canonical data-attribute form on save, so both authoring styles end
+ * up styled identically rather than needing to keep two markup shapes alive.
  */
 export const Callout = Node.create({
   name: 'callout',
@@ -16,14 +21,14 @@ export const Callout = Node.create({
     return {
       variant: {
         default: 'info',
-        parseHTML: (el) => el.getAttribute('data-variant') || 'info',
+        parseHTML: (el) => el.getAttribute('data-variant') || (['info', 'warning', 'success', 'error'].find((v) => el.classList.contains(v)) ?? 'info'),
         renderHTML: (attrs) => ({ 'data-variant': attrs.variant }),
       },
     }
   },
 
   parseHTML() {
-    return [{ tag: 'div[data-callout]' }]
+    return [{ tag: 'div[data-callout]' }, { tag: 'div.info' }, { tag: 'div.warning' }, { tag: 'div.success' }, { tag: 'div.error' }]
   },
 
   renderHTML({ HTMLAttributes }) {

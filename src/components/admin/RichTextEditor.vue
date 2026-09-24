@@ -29,6 +29,15 @@ const galleryInput = ref(null)
 const uploadingImage = ref(false)
 const uploadingGallery = ref(false)
 
+// 'visual' = the Tiptap WYSIWYG surface. 'html' = a plain textarea whose
+// value is emitted verbatim, with no parsing at all — typing "<h2>" into
+// the visual editor can only ever produce literal escaped text (that's
+// correct behavior for any WYSIWYG surface, not a bug), so raw HTML needs
+// this separate source mode, the same way WordPress's classic editor has a
+// "Text" tab alongside "Visual".
+const mode = ref('visual')
+const htmlSource = ref(props.modelValue)
+
 const HEADING_OPTIONS = [
   { value: 'p', label: 'Paragraph' },
   { value: 'h1', label: 'Heading 1' },
@@ -45,7 +54,7 @@ const editor = useEditor({
     StarterKit.configure({ heading: { levels: [1, 2, 3, 4, 5, 6] } }),
     Underline,
     Link.configure({ openOnClick: false, autolink: true }),
-    Image,
+    Image.configure({ HTMLAttributes: { class: 'rounded-xl shadow' } }),
     Youtube.configure({ width: 640, height: 360 }),
     Table.configure({ resizable: true }),
     TableRow,
@@ -63,7 +72,7 @@ const editor = useEditor({
     Placeholder.configure({ placeholder: 'Start writing…' }),
   ],
   editorProps: {
-    attributes: { class: 'rich-content prose prose-slate max-w-none focus:outline-none min-h-[320px]' },
+    attributes: { class: 'article-content focus:outline-none min-h-[320px]' },
   },
   onUpdate: ({ editor: ed }) => {
     emit('update:modelValue', ed.getHTML())
@@ -73,11 +82,35 @@ const editor = useEditor({
 watch(
   () => props.modelValue,
   (value) => {
-    if (editor.value && value !== editor.value.getHTML()) {
-      editor.value.commands.setContent(value, false)
+    if (mode.value === 'visual') {
+      if (editor.value && value !== editor.value.getHTML()) {
+        editor.value.commands.setContent(value, false)
+      }
+    } else if (value !== htmlSource.value) {
+      htmlSource.value = value
     }
   }
 )
+
+function onHtmlSourceInput(e) {
+  htmlSource.value = e.target.value
+  emit('update:modelValue', htmlSource.value)
+}
+
+function switchToHtml() {
+  htmlSource.value = editor.value?.getHTML() ?? props.modelValue
+  mode.value = 'html'
+}
+
+function switchToVisual() {
+  // Loading raw HTML into the visual editor parses it through Tiptap's
+  // schema — a real WYSIWYG surface, so anything the schema doesn't
+  // recognize can be normalized or dropped. That's an inherent trade-off of
+  // also offering visual editing; staying in HTML mode and publishing
+  // directly avoids it entirely.
+  editor.value?.commands.setContent(htmlSource.value, true)
+  mode.value = 'visual'
+}
 
 onBeforeUnmount(() => editor.value?.destroy())
 
@@ -190,7 +223,15 @@ async function onGalleryFiles(e) {
 
 <template>
   <div class="rounded-xl border border-slate-200 bg-white">
-    <div v-if="editor" class="flex flex-wrap items-center gap-1 border-b border-slate-100 p-2">
+    <div class="flex items-center justify-between gap-2 border-b border-slate-100 px-2 py-1.5">
+      <span class="px-2 text-xs text-gray-400">{{ mode === 'html' ? 'Raw HTML — stored exactly as written, no parsing.' : '' }}</span>
+      <div class="flex shrink-0 items-center gap-1">
+        <button type="button" class="tab-btn" :class="mode === 'visual' && 'tab-btn--active'" @click="switchToVisual">Visual</button>
+        <button type="button" class="tab-btn" :class="mode === 'html' && 'tab-btn--active'" @click="switchToHtml">HTML</button>
+      </div>
+    </div>
+
+    <div v-if="mode === 'visual' && editor" class="flex flex-wrap items-center gap-1 border-b border-slate-100 p-2">
       <select
         class="toolbar-btn cursor-pointer border-none bg-transparent pr-1"
         :value="currentHeadingValue()"
@@ -252,7 +293,18 @@ async function onGalleryFiles(e) {
       <button type="button" class="toolbar-btn" @click="editor.chain().focus().unsetCallout().run()">Clear box</button>
     </div>
 
-    <EditorContent :editor="editor" class="px-5 py-4" />
+    <EditorContent v-if="mode === 'visual'" :editor="editor" class="px-5 py-4" />
+    <textarea
+      v-else
+      :value="htmlSource"
+      class="block w-full resize-y border-none px-5 py-4 font-mono text-sm text-gray-800 outline-none"
+      rows="20"
+      spellcheck="false"
+      placeholder="<h2>Heading</h2>
+
+<p>Write raw HTML here — it is stored exactly as written.</p>"
+      @input="onHtmlSourceInput"
+    />
   </div>
 </template>
 
@@ -271,5 +323,20 @@ async function onGalleryFiles(e) {
 .toolbar-btn--active {
   background-color: #eff6ff;
   color: #2563eb;
+}
+.tab-btn {
+  border-radius: 0.5rem;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6b7280;
+  transition: all 0.15s ease;
+}
+.tab-btn:hover {
+  background-color: #f8fafc;
+}
+.tab-btn--active {
+  background-color: #111827;
+  color: #fff;
 }
 </style>

@@ -1,44 +1,10 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
+import GlossaryCardGrid from "../components/guides/GlossaryCardGrid.vue";
 
 const showContact = ref(false);
 const fabRef = ref(null);
 const panelRef = ref(null);
-
-const glossary = [
-  {
-    title: "HODL",
-    desc: "Crypto slang for holding onto an asset long-term instead of selling during price swings. Originally a misspelling of “hold” that stuck.",
-  },
-  {
-    title: "Blockchain",
-    desc: "A shared, public record of transactions that many computers agree on together, instead of one central authority keeping the books.",
-  },
-  {
-    title: "Seed Phrase",
-    desc: "A list of 12–24 random words that acts as the master password to a crypto wallet. Lose it, and there's usually no way to recover your funds.",
-  },
-  {
-    title: "Gas Fee",
-    desc: "The cost charged to process a transaction on certain blockchains, similar in idea to a transaction or processing fee.",
-  },
-  {
-    title: "Market Cap",
-    desc: "The total value of all coins of a given cryptocurrency in circulation — one basic way (not the only way) people compare the size of different coins.",
-  },
-  {
-    title: "Whitepaper",
-    desc: "A document a crypto project publishes explaining what it does and how it works, similar to a business plan. Worth reading before trusting a claim about a coin.",
-  },
-  {
-    title: "Slippage",
-    desc: "The difference between the price you expected for a trade and the price you actually got, usually caused by fast-moving markets.",
-  },
-  {
-    title: "Cold Wallet",
-    desc: "A wallet that stores your crypto offline, disconnected from the internet, making it much harder to hack remotely.",
-  },
-];
 
 const togglePanel = () => {
   showContact.value = !showContact.value;
@@ -114,28 +80,9 @@ onUnmounted(() => document.removeEventListener("click", handleOutsideClick));
           <h2 class="text-3xl font-bold text-slate-900 font-['Space_Grotesk']">
             Sample Entries
           </h2>
-          <span class="hidden md:block text-sm text-sky-600 font-medium">
-            {{ glossary.length }} terms
-          </span>
         </div>
 
-        <div class="grid md:grid-cols-2 gap-4">
-          <article
-            v-for="item in glossary"
-            :key="item.title"
-            class="group bg-white border border-sky-100 rounded-2xl p-6 shadow-sm hover:shadow-md hover:border-sky-300 hover:-translate-y-0.5 transition-all duration-200"
-          >
-            <h3
-              class="text-xl font-semibold text-slate-900 font-['Space_Grotesk'] mb-2 group-hover:text-sky-700 transition-colors"
-            >
-              {{ item.title }}
-            </h3>
-
-            <p class="text-slate-600 leading-7">
-              {{ item.desc }}
-            </p>
-          </article>
-        </div>
+        <GlossaryCardGrid category="glossary" />
 
         <!-- Disclaimer -->
         <div

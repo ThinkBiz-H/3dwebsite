@@ -1,38 +1,5 @@
 <script setup>
-const guides = [
-  {
-    title: "How to Spot a Crypto Scam",
-    desc: "The core warning signs — guaranteed returns, pressure to act fast, secrecy — explained with real examples of how scams actually present themselves.",
-  },
-  {
-    title: "Crypto Rug Pull Meaning",
-    desc: "A plain definition of one of the most common ways new tokens collapse, and the signs that usually show up beforehand.",
-  },
-  {
-    title: "Pig Butchering Scam",
-    desc: "A fast-growing and especially cruel scam pattern that often starts as a friendship or romance. Here's how to recognize it early.",
-  },
-  {
-    title: "Crypto Giveaway Scams",
-    desc: "Why “send 1 to get 2 back” offers — even ones appearing to come from celebrities — are always fake, no exceptions.",
-  },
-  {
-    title: "Is This Exchange Legit?",
-    desc: "A step-by-step way to check whether a platform is actually registered and trustworthy before you deposit money.",
-  },
-  {
-    title: "How to Recover Stolen Crypto",
-    desc: "What to actually do if you've been scammed — including the legitimate agencies to contact, and why “recovery services” advertised online are usually a second scam.",
-  },
-  {
-    title: "Two-Factor Authentication , Explained",
-    desc: "A five-minute setup that blocks the majority of account takeover attempts. Here's exactly how to turn it on.",
-  },
-  {
-    title: "Fake Exchange Warning Signs",
-    desc: "How to tell a real exchange website from a convincing fake one before you ever type in your password.",
-  },
-];
+import GuideCardGrid from "../components/guides/GuideCardGrid.vue";
 </script>
 
 <template>
@@ -95,48 +62,9 @@ const guides = [
           <h2 class="text-3xl font-bold text-slate-900 font-['Space_Grotesk']">
             Guides in this section
           </h2>
-          <span class="hidden md:block text-sm text-sky-600 font-medium">
-            {{ guides.length }} articles
-          </span>
         </div>
 
-        <div class="space-y-4">
-          <article
-            v-for="(guide, index) in guides"
-            :key="guide.title"
-            class="group grid md:grid-cols-[180px_1fr] gap-6 bg-white border border-sky-100 rounded-2xl p-6 shadow-sm hover:shadow-md hover:border-sky-300 hover:-translate-y-0.5 transition-all duration-200"
-          >
-            <div class="flex md:flex-col gap-3 md:gap-2">
-              <span
-                class="text-xs uppercase tracking-widest text-sky-700 font-semibold"
-              >
-                Safety
-              </span>
-              <span class="text-xs text-slate-400 font-mono md:mt-1">
-                #{{ String(index + 1).padStart(2, "0") }}
-              </span>
-            </div>
-
-            <div>
-              <h3
-                class="text-xl font-semibold text-slate-900 font-['Space_Grotesk'] mb-2 group-hover:text-sky-700 transition-colors"
-              >
-                {{ guide.title }}
-              </h3>
-
-              <p class="text-slate-600 leading-7">
-                {{ guide.desc }}
-              </p>
-
-              <div
-                class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-sky-600 opacity-0 group-hover:opacity-100 transition-opacity"
-              >
-                Read guide
-                <span aria-hidden="true">→</span>
-              </div>
-            </div>
-          </article>
-        </div>
+        <GuideCardGrid category="safety" category-label="Safety" />
 
         <!-- Warning / disclaimer -->
         <div

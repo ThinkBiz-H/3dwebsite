@@ -1,40 +1,10 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
+import GuideCardGrid from "../components/guides/GuideCardGrid.vue";
 
 const contactOpen = ref(false);
 const fabRef = ref(null);
 const panelRef = ref(null);
-
-const guides = [
-  {
-    title: "What Is Bitcoin, Really?",
-    desc: "A plain explanation of what Bitcoin is, how it's created, and why people compare it to digital gold. Start here if you're brand new.",
-  },
-  {
-    title: "How Does Cryptocurrency Actually Work?",
-    desc: "The idea behind blockchains, explained without technical jargon — how a network of computers keeps track of who owns what, with no bank involved.",
-  },
-  {
-    title: "What Is Ethereum Used For?",
-    desc: "Bitcoin isn't the only cryptocurrency. This guide explains what makes Ethereum different, and what “smart contracts” actually means in plain terms.",
-  },
-  {
-    title: "Crypto Wallets for Beginners",
-    desc: "Before you buy anything, you need somewhere to keep it. This guide walks through what a wallet is and the basic types, in plain language.",
-  },
-  {
-    title: "Is It Too Late to Invest in Crypto?",
-    desc: "A fair, non-hyped answer to one of the most common beginner questions — including why “timing” isn't the only thing that matters.",
-  },
-  {
-    title: "How Much Money Do You Need to Start?",
-    desc: "Spoiler: much less than people think. This guide covers realistic starting amounts and why bigger isn't automatically better.",
-  },
-  {
-    title: "Dollar-Cost Averaging: A Lower-Stress Way to Approach Crypto",
-    desc: "A simple method some people use to reduce the stress of volatile prices — explained with a real example.",
-  },
-];
 
 const openPanel = () => {
   contactOpen.value = true;
@@ -116,48 +86,9 @@ onUnmounted(() => document.removeEventListener("click", handleOutsideClick));
           <h2 class="text-3xl font-bold text-slate-900 font-['Space_Grotesk']">
             Guides in this section
           </h2>
-          <span class="hidden md:block text-sm text-sky-600 font-medium">
-            {{ guides.length }} articles
-          </span>
         </div>
 
-        <div class="space-y-4">
-          <article
-            v-for="(guide, index) in guides"
-            :key="guide.title"
-            class="group grid md:grid-cols-[180px_1fr] gap-6 bg-white border border-sky-100 rounded-2xl p-6 shadow-sm hover:shadow-md hover:border-sky-300 hover:-translate-y-0.5 transition-all duration-200"
-          >
-            <div class="flex md:flex-col gap-3 md:gap-2">
-              <span
-                class="text-xs uppercase tracking-widest text-sky-700 font-semibold"
-              >
-                Getting Started
-              </span>
-              <span class="text-xs text-slate-400 font-mono md:mt-1">
-                #{{ String(index + 1).padStart(2, "0") }}
-              </span>
-            </div>
-
-            <div>
-              <h3
-                class="text-xl font-semibold text-slate-900 font-['Space_Grotesk'] mb-2 group-hover:text-sky-700 transition-colors"
-              >
-                {{ guide.title }}
-              </h3>
-
-              <p class="text-slate-600 leading-7">
-                {{ guide.desc }}
-              </p>
-
-              <div
-                class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-sky-600 opacity-0 group-hover:opacity-100 transition-opacity"
-              >
-                Read guide
-                <span aria-hidden="true">→</span>
-              </div>
-            </div>
-          </article>
-        </div>
+        <GuideCardGrid category="getting-started" category-label="Getting Started" />
 
         <!-- Disclaimer -->
         <div

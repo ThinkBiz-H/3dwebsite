@@ -2,8 +2,11 @@
 import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { slugify, estimateReadingTime, stripHtml } from '../../composables/text'
+import { sanitizeArticleHtml } from '../../composables/sanitizeArticleHtml'
 import { getBlogById, blogSlugExists, createBlog, updateBlog } from '../../services/blogs'
 import { getArticleById, articleSlugExists, createArticle, updateArticle } from '../../services/articles'
+import { GUIDE_CATEGORIES } from '../../composables/guideCategories'
+import { listGuideCards } from '../../services/guideCards'
 import RichTextEditor from '../../components/admin/RichTextEditor.vue'
 import ImageUploader from '../../components/admin/ImageUploader.vue'
 
@@ -51,10 +54,36 @@ const form = reactive({
   canonicalUrl: '',
   faqs: [],
   keyTakeaways: '',
+  guideCategory: '',
+  guideCardId: '',
 })
 
 const seoOpen = ref(false)
 const views = ref(0)
+const guideCardOptions = ref([])
+const guideCardsLoading = ref(false)
+
+// Guide-card options only ever get (re)fetched here — never from a
+// `watch(() => form.guideCategory, ...)` — so that loading an existing
+// article's saved guideCategory doesn't also wipe out its saved
+// guideCardId the instant the form is populated.
+async function fetchGuideCardOptions(category) {
+  if (!category) {
+    guideCardOptions.value = []
+    return
+  }
+  guideCardsLoading.value = true
+  try {
+    guideCardOptions.value = await listGuideCards({ category })
+  } finally {
+    guideCardsLoading.value = false
+  }
+}
+
+function onGuideCategoryChange() {
+  form.guideCardId = ''
+  fetchGuideCardOptions(form.guideCategory)
+}
 
 function addFaq() {
   form.faqs.push({ question: '', answer: '' })
@@ -64,6 +93,7 @@ function removeFaq(i) {
 }
 
 const readingTime = computed(() => estimateReadingTime(form.content))
+const previewHtml = computed(() => sanitizeArticleHtml(form.content))
 
 watch(
   () => form.title,
@@ -103,9 +133,12 @@ async function loadExisting() {
     canonicalUrl: post.canonicalUrl || '',
     faqs: Array.isArray(post.faqs) ? post.faqs.map((f) => ({ ...f })) : [],
     keyTakeaways: Array.isArray(post.keyTakeaways) ? post.keyTakeaways.join('\n') : '',
+    guideCategory: post.guideCategory || '',
+    guideCardId: post.guideCardId || '',
   })
   views.value = post.views || 0
   slugTouched.value = true
+  if (form.guideCategory) await fetchGuideCardOptions(form.guideCategory)
   loading.value = false
 }
 
@@ -136,6 +169,8 @@ function buildPayload() {
       .split('\n')
       .map((t) => t.trim())
       .filter(Boolean),
+    guideCategory: form.guideCategory,
+    guideCardId: form.guideCategory ? form.guideCardId : '',
   }
 }
 
@@ -373,6 +408,42 @@ onMounted(() => {
           </label>
         </div>
 
+        <div v-if="postType === 'article'" class="space-y-4 rounded-2xl border border-slate-200/80 bg-white p-5 shadow-soft">
+          <div>
+            <h3 class="text-sm font-semibold text-gray-900">Guide linking</h3>
+            <p class="mt-1 text-xs text-gray-400">
+              Optional — attach this article to a guide card so its "Read Guide" button opens it automatically, with no code changes.
+            </p>
+          </div>
+
+          <div>
+            <label class="text-xs font-medium text-gray-500">Guide category</label>
+            <select
+              v-model="form.guideCategory"
+              class="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-blue-400"
+              @change="onGuideCategoryChange"
+            >
+              <option value="">None</option>
+              <option v-for="c in GUIDE_CATEGORIES" :key="c.value" :value="c.value">{{ c.label }}</option>
+            </select>
+          </div>
+
+          <div v-if="form.guideCategory">
+            <label class="text-xs font-medium text-gray-500">Guide card</label>
+            <select
+              v-model="form.guideCardId"
+              class="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-blue-400"
+              :disabled="guideCardsLoading"
+            >
+              <option value="">{{ guideCardsLoading ? 'Loading…' : 'Select a card' }}</option>
+              <option v-for="card in guideCardOptions" :key="card.id" :value="card.cardId">{{ card.title }}</option>
+            </select>
+            <p v-if="!guideCardsLoading && !guideCardOptions.length" class="mt-1.5 text-xs text-amber-600">
+              No guide cards exist in this category yet — add one from Guide Cards management.
+            </p>
+          </div>
+        </div>
+
         <div class="rounded-2xl border border-slate-200/80 bg-white shadow-soft">
           <button
             type="button"
@@ -450,7 +521,7 @@ onMounted(() => {
           <h1 class="mt-3 font-display text-4xl font-bold tracking-tight text-gray-900">{{ form.title || 'Untitled post' }}</h1>
           <p class="mt-4 text-lg text-gray-500">{{ form.description }}</p>
           <img v-if="form.coverImage" :src="form.coverImage" alt="" class="mt-8 w-full rounded-2xl object-cover" />
-          <div class="rich-content prose prose-slate mt-10 max-w-none" v-html="form.content" />
+          <div class="article-content mt-10" v-html="previewHtml" />
         </article>
       </div>
     </Transition>

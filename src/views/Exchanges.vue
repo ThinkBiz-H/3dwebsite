@@ -1,26 +1,5 @@
 <script setup>
-const guides = [
-  {
-    title: "Self-Custody vs. Exchange Custody",
-    desc: "What actually happens to your coins in each case, the trade-offs of both, and how to decide which fits you.",
-  },
-  {
-    title: "Hardware Wallet vs. Software Wallet",
-    desc: "A practical comparison of the two main ways to hold your own crypto, including cost and convenience differences.",
-  },
-  {
-    title: "How to Secure a Crypto Wallet",
-    desc: "A step-by-step checklist covering the handful of habits that prevent the vast majority of wallet theft.",
-  },
-  {
-    title: "Is Coinbase Regulated?",
-    desc: "A factual answer to a commonly searched question — explained clearly, without this being an endorsement of any specific platform.",
-  },
-  {
-    title: "Best Regulated Crypto Exchanges",
-    desc: "Not a ranked list — a guide to how to check registration and regulatory status yourself, so you're not relying on anyone else's opinion.",
-  },
-];
+import GuideCardGrid from "../components/guides/GuideCardGrid.vue";
 </script>
 
 <template>
@@ -81,48 +60,9 @@ const guides = [
           <h2 class="text-3xl font-bold text-slate-900 font-['Space_Grotesk']">
             Guides in this section
           </h2>
-          <span class="hidden md:block text-sm text-sky-600 font-medium">
-            {{ guides.length }} articles
-          </span>
         </div>
 
-        <div class="space-y-4">
-          <article
-            v-for="(guide, index) in guides"
-            :key="guide.title"
-            class="group grid md:grid-cols-[180px_1fr] gap-6 bg-white border border-sky-100 rounded-2xl p-6 shadow-sm hover:shadow-md hover:border-sky-300 hover:-translate-y-0.5 transition-all duration-200"
-          >
-            <div class="flex md:flex-col gap-3 md:gap-2">
-              <span
-                class="text-xs uppercase tracking-widest text-sky-700 font-semibold"
-              >
-                Exchanges
-              </span>
-              <span class="text-xs text-slate-400 font-mono md:mt-1">
-                #{{ String(index + 1).padStart(2, "0") }}
-              </span>
-            </div>
-
-            <div>
-              <h3
-                class="text-xl font-semibold text-slate-900 font-['Space_Grotesk'] mb-2 group-hover:text-sky-700 transition-colors"
-              >
-                {{ guide.title }}
-              </h3>
-
-              <p class="text-slate-600 leading-7">
-                {{ guide.desc }}
-              </p>
-
-              <div
-                class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-sky-600 opacity-0 group-hover:opacity-100 transition-opacity"
-              >
-                Read guide
-                <span aria-hidden="true">→</span>
-              </div>
-            </div>
-          </article>
-        </div>
+        <GuideCardGrid category="exchanges" category-label="Exchanges" />
 
         <!-- Disclaimer -->
         <div
