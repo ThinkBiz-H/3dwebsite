@@ -81,7 +81,7 @@ onBeforeUnmount(() => cleanups.forEach((fn) => fn()));
         </div>
 
         <RouterLink
-          to="/blog"
+          to="/articles"
           class="hidden md:block text-sm text-slate-600 hover:text-slate-900"
         >
           View all guides →
