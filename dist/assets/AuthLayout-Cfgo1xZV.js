@@ -1,0 +1,1 @@
+import{_ as t}from"./_plugin-vue_export-helper-DlAUqK2U.js";import{x as s,y as r,I as o}from"./tiptap-B0PErQl-.js";const c={},n={class:"flex min-h-screen items-center justify-center bg-slate-50 px-6"};function a(e,f){return s(),r("div",n,[o(e.$slots,"default")])}const i=t(c,[["render",a]]);export{i as default};

@@ -170,12 +170,12 @@ watch(
 useSeoMeta(() => ({
   title: "Articles",
   description:
-    "In-depth, plain-language articles on blockchain, wallets, and digital assets from the Lumen Ledger team.",
+    "In-depth, plain-language articles on blockchain, wallets, and digital assets from the cryptolearner.us team.",
   path: "/articles",
   jsonLd: {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Lumen Ledger Articles",
+    name: "cryptolearner.us Articles",
     url: `${SITE_URL}/articles`,
   },
 }));

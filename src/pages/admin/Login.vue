@@ -1,53 +1,63 @@
 <script setup>
-import { reactive, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useAuthStore } from '../../stores/auth'
-import MagneticButton from '../../components/ui/MagneticButton.vue'
+import { reactive, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useAuthStore } from "../../stores/auth";
+import MagneticButton from "../../components/ui/MagneticButton.vue";
 
-const route = useRoute()
-const router = useRouter()
-const auth = useAuthStore()
+const route = useRoute();
+const router = useRouter();
+const auth = useAuthStore();
 
-const fields = reactive({ email: '', password: '' })
-const error = ref('')
-const loading = ref(false)
+const fields = reactive({ email: "", password: "" });
+const error = ref("");
+const loading = ref(false);
 
 async function onSubmit() {
-  error.value = ''
-  loading.value = true
+  error.value = "";
+  loading.value = true;
   try {
-    await auth.login(fields.email, fields.password)
-    router.push(route.query.redirect || { name: 'admin-dashboard' })
+    await auth.login(fields.email, fields.password);
+    router.push(route.query.redirect || { name: "admin-dashboard" });
   } catch (err) {
     // Never swallow the real reason — log it in full so it shows up in devtools.
-    console.error('[auth] sign-in failed:', err.code, err.message, err)
+    console.error("[auth] sign-in failed:", err.code, err.message, err);
 
-    if (err.code?.includes('api-key') || err.code?.includes('configuration')) {
-      error.value = 'Firebase is not configured yet — check your .env values.'
+    if (err.code?.includes("api-key") || err.code?.includes("configuration")) {
+      error.value = "Firebase is not configured yet — check your .env values.";
     } else if (import.meta.env.DEV) {
       // Dev-only: show the real Firebase error code instead of a generic
       // message, so misconfiguration (wrong project, disabled provider,
       // no such user) is obvious instead of looking like a typo.
-      error.value = `${err.code || 'unknown-error'} — ${err.message || 'Sign-in failed.'}`
+      error.value = `${err.code || "unknown-error"} — ${err.message || "Sign-in failed."}`;
     } else {
-      error.value = 'Invalid email or password.'
+      error.value = "Invalid email or password.";
     }
   } finally {
-    loading.value = false
+    loading.value = false;
   }
 }
 </script>
 
 <template>
-  <div class="w-full max-w-sm rounded-2xl border border-slate-200/80 bg-white p-8 shadow-lift">
+  <div
+    class="w-full max-w-sm rounded-2xl border border-slate-200/80 bg-white p-8 shadow-lift"
+  >
     <div class="text-center">
-      <div class="font-display text-xl font-semibold tracking-tight text-gray-900">Lumen Ledger</div>
-      <p class="mt-2 text-sm text-gray-500">Sign in to manage blogs and articles.</p>
+      <div
+        class="font-display text-xl font-semibold tracking-tight text-gray-900"
+      >
+        cryptolearner.us
+      </div>
+      <p class="mt-2 text-sm text-gray-500">
+        Sign in to manage blogs and articles.
+      </p>
     </div>
 
     <form class="mt-8 space-y-4" @submit.prevent="onSubmit">
       <div>
-        <label class="text-sm font-medium text-gray-700" for="email">Email</label>
+        <label class="text-sm font-medium text-gray-700" for="email"
+          >Email</label
+        >
         <input
           id="email"
           v-model="fields.email"
@@ -58,7 +68,9 @@ async function onSubmit() {
         />
       </div>
       <div>
-        <label class="text-sm font-medium text-gray-700" for="password">Password</label>
+        <label class="text-sm font-medium text-gray-700" for="password"
+          >Password</label
+        >
         <input
           id="password"
           v-model="fields.password"
@@ -72,7 +84,7 @@ async function onSubmit() {
       <p v-if="error" class="text-sm text-red-500">{{ error }}</p>
 
       <MagneticButton as="button" type="submit" class="w-full">
-        {{ loading ? 'Signing in…' : 'Sign in' }}
+        {{ loading ? "Signing in…" : "Sign in" }}
       </MagneticButton>
     </form>
   </div>

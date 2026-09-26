@@ -9,7 +9,7 @@ import logo from "../../assets/logo2.png";
       <div class="grid grid-cols-[auto_1fr_auto] items-center">
         <!-- Logo -->
         <RouterLink to="/" class="justify-self-start">
-          <img :src="logo" alt="Lumen Ledger" class="h-8 sm:h-9 w-auto" />
+          <img :src="logo" alt="cryptolearner.us" class="h-8 sm:h-9 w-auto" />
         </RouterLink>
 
         <!-- Navigation -->

@@ -1,0 +1,1 @@
+const e=[{value:"getting-started",label:"Getting Started"},{value:"safety",label:"Safety"},{value:"coins",label:"Coins"},{value:"exchanges",label:"Exchanges"},{value:"taxes",label:"Taxes"},{value:"glossary",label:"Glossary"}];export{e as G};

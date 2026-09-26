@@ -116,7 +116,7 @@ onUnmounted(() => {
         </a>
 
         <a
-          href="mailto:hello@cryptolearner.com"
+          href="mailto:support@cryptolearner.us"
           class="flex items-center gap-4 border-t p-5 transition hover:bg-slate-50"
         >
           <div
@@ -127,7 +127,7 @@ onUnmounted(() => {
 
           <div>
             <h4 class="font-semibold">Email Us</h4>
-            <p class="text-sm text-slate-500">hello@cryptolearner.com</p>
+            <p class="text-sm text-slate-500">support@cryptolearner.us</p>
           </div>
         </a>
 

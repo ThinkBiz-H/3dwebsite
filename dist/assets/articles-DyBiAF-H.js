@@ -1,0 +1,1 @@
+import{c as t}from"./posts-CUkwZQsp.js";const e=t("articles"),c=e.list,i=e.getById,r=e.getBySlug,n=e.slugExists,a=e.create,l=e.update,o=e.remove,g=e.incrementViews,m=e.incrementLikes,A=e.decrementLikes;export{g as a,r as b,a as c,A as d,n as e,i as f,c as g,o as h,m as i,l as u};

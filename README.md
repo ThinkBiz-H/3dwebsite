@@ -1,6 +1,6 @@
-# Lumen Ledger — Premium Crypto Education Landing Page
+# cryptolearner.us — Premium Crypto Education Landing Page
 
-An original, production-ready landing page inspired by the *interaction quality* of
+An original, production-ready landing page inspired by the _interaction quality_ of
 learncrypto.com (smooth scroll, scroll-driven storytelling, glass/glow UI) — built with
 its own visual identity, copy, and layout. No text, assets, or branding were copied from
 any source.

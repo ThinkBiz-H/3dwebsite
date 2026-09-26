@@ -23,15 +23,10 @@ const route = useRoute();
 const { scrollTo } = useLenis();
 
 useSeoMeta({
-  title: "Learn Crypto With Confidence",
-  description: "Lumen Ledger teaches blockchain, Bitcoin and Crypto.",
+  title: "CryptoLearner.us | Learn Cryptocurrency, Blockchain, Bitcoin & Web3",
+  description:
+    "Learn cryptocurrency, Bitcoin, Ethereum, blockchain, Web3, DeFi and NFTs with beginner-friendly tutorials, in-depth guides and expert insights. Start your crypto journey with CryptoLearner.us.",
   path: "/",
-  jsonLd: {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "Lumen Ledger",
-    url: SITE_URL,
-  },
 });
 
 onMounted(async () => {

@@ -92,10 +92,13 @@ onBeforeUnmount(() => window.removeEventListener("click", closeShare));
       @mouseenter="prefetchRoute('article-details')"
     >
       <div class="flex items-center gap-3 px-7 pt-7 sm:px-9 sm:pt-9">
-        <AuthorAvatar :name="post.author || 'Lumen Ledger Team'" size="sm" />
+        <AuthorAvatar
+          :name="post.author || 'cryptolearner.us Team'"
+          size="sm"
+        />
         <div class="min-w-0 flex-1">
           <p class="truncate text-sm font-semibold text-gray-800">
-            {{ post.author || "Lumen Ledger Team" }}
+            {{ post.author || "cryptolearner.us Team" }}
           </p>
           <p class="text-xs text-gray-400">
             {{ formatRelativeTime(post.createdAt) }}

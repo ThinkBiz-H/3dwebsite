@@ -1,0 +1,1 @@
+import{n as a,p as e}from"./firebase-CYV2rnSx.js";const o={apiKey:"AIzaSyD0JRFHfiLDi9dYCUv31UtFYz9F9XgOoFg",authDomain:"crypto-blog-b2fc7.firebaseapp.com",projectId:"crypto-blog-b2fc7",storageBucket:"crypto-blog-b2fc7.firebasestorage.app",messagingSenderId:"898389242942",appId:"1:898389242942:web:d65a9dd6ae42c360e28d6f"},p=e(o),i=a(p);export{p as a,i as d};

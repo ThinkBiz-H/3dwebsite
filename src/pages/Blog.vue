@@ -162,7 +162,7 @@ useSeoMeta(() => ({
   jsonLd: {
     "@context": "https://schema.org",
     "@type": "Blog",
-    name: "Lumen Ledger Blog",
+    name: "cryptolearner.us Blog",
     url: `${SITE_URL}/blog`,
   },
 }));

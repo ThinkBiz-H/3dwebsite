@@ -89,7 +89,9 @@ onUnmounted(() => document.removeEventListener("click", handleOutsideClick));
           class="mt-10 bg-amber-50 border-l-4 border-amber-500 rounded-r-xl p-6 text-amber-900 leading-7"
         >
           <strong class="text-amber-800">Living page:</strong>
-          This glossary is a living page — new terms are added as they come up across our guides. If you searched for a term and didn't find it here, use the “Talk to us” button and we'll add it.
+          This glossary is a living page — new terms are added as they come up
+          across our guides. If you searched for a term and didn't find it here,
+          use the “Talk to us” button and we'll add it.
           <b>Talk to us</b> button.
         </div>
       </div>
@@ -163,7 +165,7 @@ onUnmounted(() => document.removeEventListener("click", handleOutsideClick));
 
           <a
             class="flex items-center gap-3 rounded-xl p-3 hover:bg-sky-50 transition-colors"
-            href="mailto:hello@cryptolearner.com"
+            href="mailto:support@cryptolearner.us"
           >
             <div
               class="flex h-10 w-10 items-center justify-center rounded-full bg-sky-100 text-sky-700 text-lg"
@@ -172,7 +174,7 @@ onUnmounted(() => document.removeEventListener("click", handleOutsideClick));
             </div>
             <div class="text-sm">
               <b class="block text-slate-800">Email us</b>
-              <span class="text-slate-500">hello@cryptolearner.com</span>
+              <span class="text-slate-500">support@cryptolearner.us</span>
             </div>
           </a>
         </div>

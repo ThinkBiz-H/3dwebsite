@@ -1,15 +1,15 @@
 <script setup>
 defineProps({
-  modelValue: { type: String, default: 'newest' },
-})
+  modelValue: { type: String, default: "newest" },
+});
 
-defineEmits(['update:modelValue'])
+defineEmits(["update:modelValue"]);
 
 const OPTIONS = [
-  { value: 'newest', label: 'Latest' },
-  { value: 'trending', label: 'Trending' },
-  { value: 'popular', label: 'Popular' },
-]
+  { value: "trending", label: "Trending" },
+  { value: "newest", label: "Latest" },
+  { value: "popular", label: "Popular" },
+];
 </script>
 
 <template>

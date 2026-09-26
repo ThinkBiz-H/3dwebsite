@@ -8,9 +8,9 @@ export const nav = [
 
 export const hero = {
   eyebrow: "A calmer way into crypto",
-  heading: ["Understand crypto before you put a single dollar into it."],
+  heading: ["Understand Crypto Before You Put A Single Dollar Into It."],
   subtitle:
-    "We explain how crypto trading actually works — the good parts and the bad parts — in plain English. No hype. No price predictions. No pressure to buy anything.",
+    "We explain how crypto trading actually works — the good parts and the bad parts . No hype. No price predictions. No pressure to buy anything.",
   primaryCta: "Start learning free",
   secondaryCta: "See the Risks first",
   scrollHint: "Scroll to explore",
@@ -250,7 +250,7 @@ export const faqs = [
   {
     question: "Will this teach me how to trade?",
     answer:
-      "Not directly. Lumen Ledger focuses on understanding how the technology and markets work. Several learners go on to trade afterward, but the course itself is deliberately not a trading strategy.",
+      "Not directly. cryptolearner.us focuses on understanding how the technology and markets work. Several learners go on to trade afterward, but the course itself is deliberately not a trading strategy.",
   },
   {
     question: "What is the practice wallet, exactly?",
@@ -381,7 +381,7 @@ export const aboutContact = {
     },
     {
       label: "Email",
-      title: "hello@cryptolearner.com",
+      title: "support@cryptolearner.us",
       detail: "We reply personally",
       icon: "mail",
     },
@@ -505,7 +505,7 @@ export const contactInfo = [
   },
   {
     title: "Email",
-    detail: "hello@cryptolearner.com",
+    detail: "support@cryptolearner.us",
     description: "",
     icon: "mail",
   },
@@ -849,7 +849,7 @@ export const footer = {
   legal:
     "© " +
     new Date().getFullYear() +
-    " CryptoLearn . Educational content only — not financial advice.",
+    " cryptolearner.us . Educational content only — not financial advice.",
 };
 export const prosCons = {
   heading: "Pros vs. Cons, Side by Side",
