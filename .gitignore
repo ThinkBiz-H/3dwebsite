@@ -1,1 +1,44 @@
 
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+dist.zip/
+
+# Environment files
+
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Editor
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Cache
+.cache/
+.temp/
+tmp/
+
+# Vite
+.vite/
+
+# Firebase
+.firebase/
+
+# Coverage
+coverage/
+
+# Misc
+*.pid
+*.seed
+*.pid.lock
