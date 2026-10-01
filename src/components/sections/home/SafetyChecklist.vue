@@ -58,17 +58,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <section ref="sectionEl" class="py-28">
+  <section ref="sectionEl" class="py-18">
     <div class="mx-auto max-w-6xl px-6 lg:px-10">
       <h2
-        ref="headingEl"
-        class="mx-auto mt-4 max-w-3xl text-center text-4xl font-bold text-slate-900 lg:text-5xl"
+        ref="{headingEl}"
+        className="mx-auto mt-4 max-w-3xl text-center text-4xl font-bold text-[#F08753] lg:text-5xl"
       >
         How to Approach Crypto Safely
       </h2>
-
       <p
-        class="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-slate-600"
+        class="mx-auto mt-6 max-w-2xl text-center text-2xl leading-8 text-[#351403]"
       >
         Learning crypto is much safer when you understand the basics first.
         These practical guidelines can help reduce common mistakes and improve
@@ -82,23 +81,23 @@ onMounted(() => {
           class="rounded-3xl border border-slate-200 bg-white p-8 transition duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl"
         >
           <div
-            class="mb-6 flex h-12 w-12 items-center justify-center rounded-full bg-blue-50 text-lg font-bold text-blue-700"
+            class="mb-6 flex h-12 w-12 items-center justify-center rounded-full bg-[#F08753] text-lg font-bold text-[#351403]"
           >
             {{ String(index + 1).padStart(2, "0") }}
           </div>
 
-          <h3 class="text-xl font-semibold text-slate-900">
+          <h3 class="text-xl font-semibold text-[#F08753]">
             {{ tip.title }}
           </h3>
 
-          <p class="mt-3 leading-7 text-slate-600">
+          <p class="mt-3 leading-7 text-[#351403]">
             {{ tip.desc }}
           </p>
         </div>
       </div>
 
       <div class="mt-16 rounded-3xl bg-slate-900 p-8 text-center">
-        <h3 class="text-2xl font-bold text-white">
+        <h3 class="text-2xl font-bold text-[#F08753]">
           Knowledge is Your Best Investment
         </h3>
 

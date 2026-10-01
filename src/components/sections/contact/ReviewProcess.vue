@@ -14,7 +14,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section ref="sectionEl" class="relative mx-auto max-w-4xl px-6 py-24 lg:px-10">
+  <section ref="sectionEl" class="relative mx-auto max-w-4xl px-6 py-16 lg:px-10">
     <h2 ref="headingEl" class="font-display text-3xl font-bold leading-tight tracking-tight text-gray-900 sm:text-4xl">
       {{ contactReviewProcess.heading }}
     </h2>

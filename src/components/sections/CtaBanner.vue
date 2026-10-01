@@ -19,7 +19,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section ref="sectionEl" class="relative mx-auto max-w-6xl px-6 py-24 lg:px-10">
+  <section ref="sectionEl" class="relative mx-auto max-w-6xl px-6 py-16 lg:px-10">
     <div class="relative overflow-hidden rounded-[2.5rem] border border-slate-200/80 bg-white px-8 py-20 text-center shadow-lift sm:px-16">
       <div class="pointer-events-none absolute inset-0 animated-gradient opacity-70" />
 

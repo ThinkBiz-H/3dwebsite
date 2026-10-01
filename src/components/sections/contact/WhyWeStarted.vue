@@ -14,13 +14,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <section ref="sectionEl" class="relative mx-auto max-w-4xl px-6 py-24 lg:px-10">
+  <section ref="sectionEl" class="relative mx-auto max-w-4xl px-6 py-16 lg:px-10">
     <h2 ref="headingEl" class="font-display text-3xl font-bold leading-tight tracking-tight text-gray-900 sm:text-4xl">
       {{ contactStory.heading }}
     </h2>
 
     <div ref="paraEl" class="mt-8 space-y-5">
-      <p v-for="(p, i) in contactStory.paragraphs" :key="i" class="max-w-2xl text-lg leading-8 text-gray-500">
+      <p v-for="(p, i) in contactStory.paragraphs" :key="i" class="max-w-2xl text-lg leading-8 text-black">
         {{ p }}
       </p>
     </div>

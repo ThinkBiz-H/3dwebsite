@@ -1,5 +1,12 @@
 <script setup>
 import GuideCardGrid from "../components/guides/GuideCardGrid.vue";
+import { useSeoMeta } from "../composables/useSeoMeta";
+useSeoMeta({
+  title: "Crypto Safety Guide | Protect Your Crypto with Cryptolearner",
+  description:
+    "Learn crypto safety with Cryptolearner. Get simple tips on protecting your Bitcoin, wallets, private keys, accounts, and digital assets from common risks.",
+  path: "/safety",
+});
 </script>
 
 <template>

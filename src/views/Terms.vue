@@ -1,4 +1,11 @@
 <script setup>
+import { useSeoMeta } from "../composables/useSeoMeta";
+useSeoMeta({
+  title: "Crypto Glossary | Crypto Terms & Definitions",
+  description:
+    "Explore the Cryptolearner glossary to understand crypto terms and definitions, from Bitcoin and blockchain to Web3, DeFi, NFTs, wallets, and more.",
+  path: "/terms",
+});
 const sections = [
   {
     title: "Acceptance of Terms",
@@ -138,7 +145,7 @@ const sections = [
               >
                 Email
               </h3>
-              <p class="text-sky-700 font-medium">legal@cryptolearn.com</p>
+              <p class="text-sky-700 font-medium">support@cryptolearner.us</p>
             </div>
 
             <div
@@ -149,7 +156,9 @@ const sections = [
               >
                 Website
               </h3>
-              <p class="text-sky-700 font-medium">https://cryptolearn.com</p>
+              <p class="text-sky-700 font-medium">
+                https://www.cryptolearner.us
+              </p>
             </div>
           </div>
         </article>

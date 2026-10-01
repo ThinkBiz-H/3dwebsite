@@ -26,7 +26,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section id="features" ref="sectionEl" class="relative overflow-hidden py-28">
+  <section id="features" ref="sectionEl" class="relative overflow-hidden py-18">
     <!-- Background -->
     <div
       class="absolute left-1/2 top-0 h-96 w-96 -translate-x-1/2 rounded-full bg-blue-100/40 blur-3xl"
@@ -88,27 +88,6 @@ onMounted(() => {
           <p class="mt-4 text-[15px] leading-7 text-slate-600">
             {{ feature.description }}
           </p>
-
-          <!-- Footer -->
-          <div
-            class="mt-8 flex items-center gap-2 text-sm font-semibold text-blue-600 opacity-0 transition-all duration-300 group-hover:opacity-100"
-          >
-            Learn More
-
-            <svg
-              class="h-4 w-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </div>
         </GlowCard>
       </div>
       <!-- Important Note -->

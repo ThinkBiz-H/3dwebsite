@@ -1,31 +1,28 @@
 <script setup>
-import { ref, onMounted, nextTick } from "vue";
-import { useRoute } from "vue-router";
+import { ref, onMounted, onBeforeUnmount, nextTick } from "vue";
 import { gsap, ScrollTrigger } from "../composables/gsapSetup";
 
-import { useLenis } from "../composables/useLenis";
 import { useSeoMeta, SITE_URL } from "../composables/useSeoMeta";
 
 import HeroSection from "../components/sections/HeroSection.vue";
 import CryptoBasics from "../components/sections/home/CryptoBasics.vue";
 import BenefitsRisks from "../components/sections/home/BenefitsRisks.vue";
-import FeaturesGrid from "../components/sections/FeaturesGrid.vue";
+
 import ProsVsCons from "../components/sections/home/ProsVsCons.vue";
 import StatsCounter from "../components/sections/StatsCounter.vue";
 import SafetyChecklist from "../components/sections/home/SafetyChecklist.vue";
 import AnimatedCards from "../components/sections/AnimatedCards.vue";
 import TrustStrip from "../components/sections/home/TrustStrip.vue";
 import FaqSection from "../components/sections/FaqSection.vue";
+import ExplorePages from "../components/sections/home/ExplorePages.vue";
 
 const bg = ref(null);
-
-const route = useRoute();
-const { scrollTo } = useLenis();
+let ctx;
 
 useSeoMeta({
-  title: "CryptoLearner.us | Learn Cryptocurrency, Blockchain, Bitcoin & Web3",
+  title: "Cryptolearner | Learn Crypto, Bitcoin, Blockchain & Web3",
   description:
-    "Learn cryptocurrency, Bitcoin, Ethereum, blockchain, Web3, DeFi and NFTs with beginner-friendly tutorials, in-depth guides and expert insights. Start your crypto journey with CryptoLearner.us.",
+    "Learn crypto with Cryptolearner through beginner-friendly guides on Cryptocurrency, Bitcoin, blockchain, Ethereum, Web3, NFTs, DeFi, and digital assets.",
   path: "/",
 });
 
@@ -43,37 +40,41 @@ onMounted(async () => {
   // which is what drives the single fade to that section's color. Colors
   // are never scrubbed or blended — only ever crossfaded between two flat
   // values, and any in-flight fade is replaced (never stacked) by the next.
-  const sections = gsap.utils.toArray("[data-bg-color]");
-  let activeColor = sections[0]?.dataset.bgColor ?? "#ffffff";
+  //
+  // Everything is created inside a gsap.context so it's reverted with the
+  // page; otherwise these triggers outlive Home and keep firing against
+  // detached nodes after navigating away.
+  ctx = gsap.context(() => {
+    const sections = gsap.utils.toArray("[data-bg-color]");
+    let activeColor = sections[0]?.dataset.bgColor ?? "#ffffff";
 
-  const activateColor = (color) => {
-    if (color === activeColor) return;
-    activeColor = color;
-    gsap.to(bg.value, {
-      backgroundColor: color,
-      duration: 0.7,
-      ease: "power2.inOut",
-      overwrite: true,
-    });
-  };
+    const activateColor = (color) => {
+      if (color === activeColor) return;
+      activeColor = color;
+      gsap.to(bg.value, {
+        backgroundColor: color,
+        duration: 0.7,
+        ease: "power2.inOut",
+        overwrite: true,
+      });
+    };
 
-  sections.forEach((section) => {
-    ScrollTrigger.create({
-      trigger: section,
-      start: "top center",
-      end: "bottom center",
-      onToggle: (self) => {
-        if (self.isActive) activateColor(section.dataset.bgColor);
-      },
+    sections.forEach((section) => {
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top center",
+        end: "bottom center",
+        onToggle: (self) => {
+          if (self.isActive) activateColor(section.dataset.bgColor);
+        },
+      });
     });
   });
 
   ScrollTrigger.refresh();
-
-  if (route.hash) {
-    scrollTo(route.hash, { immediate: true });
-  }
 });
+
+onBeforeUnmount(() => ctx?.revert());
 </script>
 
 <template>
@@ -94,19 +95,15 @@ onMounted(async () => {
     <CryptoBasics />
   </section>
 
-  <section data-bg-color="#EADFFF">
+  <section data-bg-color="#D4C1FF">
     <BenefitsRisks />
   </section>
 
-  <section data-bg-color="#FFF4D8">
+  <section data-bg-color="#F7E0D4">
     <ProsVsCons />
   </section>
 
-  <section data-bg-color="#DDF8EA">
-    <FeaturesGrid />
-  </section>
-
-  <section data-bg-color="#E8F3FF">
+  <section data-bg-color="#DBFBD2">
     <StatsCounter transparent />
   </section>
 
@@ -116,6 +113,10 @@ onMounted(async () => {
 
   <section data-bg-color="#F3E5FF">
     <AnimatedCards />
+  </section>
+
+  <section data-bg-color="#EEF5FF">
+    <ExplorePages />
   </section>
 
   <section data-bg-color="#F5F8FC">

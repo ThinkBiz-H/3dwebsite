@@ -1,6 +1,13 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
 import GuideCardGrid from "../components/guides/GuideCardGrid.vue";
+import { useSeoMeta } from "../composables/useSeoMeta";
+useSeoMeta({
+  title: "Getting Started with Crypto | Cryptolearner",
+  description:
+    "Start learning crypto with Cryptolearner’s beginner guide covering Bitcoin, blockchain, Ethereum, Web3, wallets, NFTs, DeFi, and more.",
+  path: "/getting-started",
+});
 
 const contactOpen = ref(false);
 const fabRef = ref(null);

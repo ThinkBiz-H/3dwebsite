@@ -11,5 +11,6 @@ import ArticlePage from '../components/article/ArticlePage.vue'
     base-path="/blog"
     list-route-name="blog"
     json-ld-type="BlogPosting"
+    collection="blogs"
   />
 </template>

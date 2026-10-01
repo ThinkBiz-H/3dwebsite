@@ -8,7 +8,7 @@ export const GUIDE_CATEGORIES = [
   { value: 'coins', label: 'Coins' },
   { value: 'exchanges', label: 'Exchanges' },
   { value: 'taxes', label: 'Taxes' },
-  { value: 'glossary', label: 'Glossary' },
+  { value: 'glossary', label: 'Glossary' }, 
 ]
 
 export function guideCategoryLabel(value) {

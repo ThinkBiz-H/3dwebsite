@@ -6,35 +6,54 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
-    <title>
-      CryptoLearner.us | Learn Cryptocurrency, Blockchain, Bitcoin & Web3
-    </title>
-    <meta
-      name="description"
-      content="Lumen Ledger teaches you how blockchain, Bitcoin, and digital assets actually work — through short, guided lessons built for real beginners, not traders."
-    />
+
+    <!-- Primary SEO: title, description, keywords, canonical, Open Graph and
+         Twitter tags come from defaultHead() in src/composables/useSeoMeta.js
+         and are overridden per page, so each prerendered page gets its own. -->
+
+    <meta name="author" content="CryptoLearner.us" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="googlebot" content="index, follow" />
     <meta name="theme-color" content="#FAFAFA" />
 
+    <!-- Google Search Console -->
     <meta
-      property="og:title"
-      content="Lumen Ledger — Learn Crypto With Confidence"
+      name="google-site-verification"
+      content="S1lVchJ78On0xbR0hm0VPbAoEWKFJzJsCm4-KG34e0Q"
     />
-    <meta
-      property="og:description"
-      content="Guided, jargon-free lessons on blockchain and digital assets."
-    />
-    <meta property="og:type" content="website" />
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-3EYZ8W8P8S"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
+      gtag("config", "G-3EYZ8W8P8S");
+    </script>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.svg" />
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://res.cloudinary.com" />
+
     <link
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
   </head>
+
   <body class="text-gray-900 antialiased">
     <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
+
+    <script type="module" src="/src/main-ssg.js"></script>
   </body>
 </html>

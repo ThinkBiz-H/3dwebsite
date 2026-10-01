@@ -174,7 +174,7 @@ useSeoMeta(() => {
 
   <div
     v-else-if="notFound || error"
-    class="mx-auto max-w-lg px-6 pt-40 pb-24 text-center"
+    class="mx-auto max-w-lg px-6 pt-40 pb-16 text-center"
   >
     <h1 class="font-display text-3xl font-bold text-gray-900">
       {{ error ? "Something went wrong" : "Post not found" }}
@@ -190,7 +190,7 @@ useSeoMeta(() => {
     </router-link>
   </div>
 
-  <article v-else ref="articleEl" class="pb-24">
+  <article v-else ref="articleEl" class="pb-16">
     <div class="px-6 pt-28 lg:px-10" :class="isMagazine ? '' : 'pt-36'">
       <div class="mx-auto max-w-3xl">
         <Breadcrumbs
@@ -453,7 +453,7 @@ useSeoMeta(() => {
 
   <RelatedPosts v-if="post" :posts="related" :base-path="basePath" />
 
-  <div v-if="post" class="px-6 pb-24 lg:px-10">
+  <div v-if="post" class="px-6 pb-16 lg:px-10">
     <CtaBanner />
     <div class="mx-auto mt-16 max-w-3xl">
       <CommentsPlaceholder />

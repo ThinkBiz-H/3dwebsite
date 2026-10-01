@@ -45,7 +45,7 @@ onMounted(() => {
         :ref="(el) => (rowRefs.value[i] = el?.$el ?? el)"
         :to="`${basePath}/${post.slug}`"
         data-cursor-hover
-        class="group grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-16"
+        class="group grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-10"
         @mouseenter="prefetchRoute(basePath === '/blog' ? 'blog-details' : 'article-details')"
       >
         <div

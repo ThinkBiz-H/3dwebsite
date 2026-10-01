@@ -14,7 +14,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section ref="sectionEl" class="relative mx-auto max-w-4xl px-6 py-24 lg:px-10">
+  <section ref="sectionEl" class="relative mx-auto max-w-4xl px-6 py-16 lg:px-10">
     <div class="mx-auto max-w-2xl text-center">
       <p class="mb-4 text-sm font-semibold text-cyan-600">{{ correctionsPolicy.eyebrow }}</p>
       <h2 ref="headingEl" class="font-display text-3xl font-bold leading-tight tracking-tight text-gray-900 sm:text-4xl">

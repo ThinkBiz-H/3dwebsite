@@ -2,6 +2,8 @@
 import { computed, defineAsyncComponent, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useLenis } from "./composables/useLenis";
+import { installScrollSync } from "./composables/routeScroll";
+import { pageKey } from "./router";
 
 import CustomCursor from "./components/layout/CustomCursor.vue";
 import DefaultLayout from "./layouts/DefaultLayout.vue";
@@ -27,6 +29,7 @@ const { start } = useLenis();
 
 onMounted(() => {
   start();
+  installScrollSync();
 });
 </script>
 
@@ -37,7 +40,9 @@ onMounted(() => {
   </template>
 
   <component :is="layout">
-    <RouterView />
+    <RouterView v-slot="{ Component, route: viewRoute }">
+      <component :is="Component" :key="pageKey(viewRoute)" />
+    </RouterView>
   </component>
 
   <!-- 👇 Floating Contact Widget on all marketing pages -->

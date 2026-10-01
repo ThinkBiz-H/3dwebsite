@@ -31,7 +31,7 @@ onBeforeUnmount(() => cleanupMagnetic());
   <router-link
     :to="`/articles/${post.slug}`"
     data-cursor-hover
-    class="group grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16"
+    class="group grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-10"
     @mouseenter="prefetchRoute('article-details')"
   >
     <div class="order-2 lg:order-1">

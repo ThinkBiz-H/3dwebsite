@@ -19,7 +19,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section v-if="posts.length" ref="sectionEl" class="border-t border-slate-100 bg-[#FBFCFE] px-6 py-24 lg:px-10">
+  <section v-if="posts.length" ref="sectionEl" class="border-t border-slate-100 bg-[#FBFCFE] px-6 py-16 lg:px-10">
     <div class="mx-auto max-w-6xl">
       <p class="text-xs font-semibold uppercase tracking-[0.25em] text-blue-600">Keep reading</p>
       <h2 ref="headingEl" class="mt-2 font-display text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">

@@ -13,7 +13,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section class="relative mx-auto max-w-7xl px-6 pb-24 lg:px-10">
+  <section class="relative mx-auto max-w-7xl px-6 pb-16 lg:px-10">
     <div ref="gridEl" class="grid grid-cols-1 gap-6 md:grid-cols-2">
       <GlowCard v-for="item in missionVision" :key="item.title" class="p-10">
         <div class="flex h-12 w-12 items-center justify-center rounded-full bg-blue-50 text-blue-600">

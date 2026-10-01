@@ -1,0 +1,19 @@
+{
+  "name": "cryptolearner-backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Express server for cryptolearner.us: renders articles, blog posts, pages, categories and tags from Firestore on each request, and serves the static vite-ssg build (../dist).",
+  "main": "server.js",
+"scripts": {
+  "start": "node server.js"
+},
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "compression": "^1.8.0",
+    "express": "^4.21.2",
+    "firebase-admin": "^13.6.0",
+    "jsdom": "^26.1.0"
+  }
+}

@@ -5,7 +5,9 @@ import { createHeroScene } from "../../composables/useHeroScene";
 import { hero } from "../../data/content";
 import MagneticButton from "../ui/MagneticButton.vue";
 
-const props = defineProps({ start: { type: Boolean, default: false } });
+// Intro plays on mount unless a parent (e.g. a preloader) holds it back with
+// :start="false" and flips it later.
+const props = defineProps({ start: { type: Boolean, default: true } });
 
 const canvasEl = ref(null);
 const eyebrowEl = ref(null);
@@ -13,13 +15,8 @@ const headingEl = ref(null);
 const subtitleEl = ref(null);
 const ctaEl = ref(null);
 const scrollHintEl = ref(null);
-const floatCardA = ref(null);
-const floatCardB = ref(null);
 
-let scene,
-  headingSplit,
-  subtitleSplit,
-  floatTweens = [];
+let scene, headingSplit, subtitleSplit, introTl;
 let splitReady = false;
 let pendingStart = false;
 
@@ -30,11 +27,6 @@ onMounted(async () => {
   gsap.set(eyebrowEl.value, { opacity: 0, y: 12 });
   gsap.set(ctaEl.value.children, { opacity: 0, y: 18 });
   gsap.set(scrollHintEl.value, { opacity: 0 });
-  gsap.set([floatCardA.value, floatCardB.value], {
-    opacity: 0,
-    y: 24,
-    scale: 0.94,
-  });
 
   // Wait for web fonts before measuring line breaks, otherwise SplitText
   // commits to line groupings based on the fallback font and text can
@@ -42,6 +34,9 @@ onMounted(async () => {
   if (document.fonts?.ready) {
     await document.fonts.ready;
   }
+
+  // Navigated away while fonts were loading: refs are already cleared.
+  if (!headingEl.value) return;
 
   headingSplit = new SplitText(headingEl.value, {
     type: "chars,lines",
@@ -69,8 +64,9 @@ watch(
 );
 
 function playIntro() {
-  const tl = gsap.timeline({ delay: 0.1 });
-  tl.to(eyebrowEl.value, { opacity: 1, y: 0, duration: 0.7 })
+  introTl = gsap.timeline({ delay: 0.1 });
+  introTl
+    .to(eyebrowEl.value, { opacity: 1, y: 0, duration: 0.7 })
     .to(
       headingSplit.chars,
       {
@@ -92,42 +88,14 @@ function playIntro() {
       { opacity: 1, y: 0, duration: 0.7, stagger: 0.1 },
       "-=0.5",
     )
-    .to(
-      [floatCardA.value, floatCardB.value],
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 0.9,
-        stagger: 0.15,
-        ease: "back.out(1.6)",
-      },
-      "-=0.5",
-    )
-    .to(scrollHintEl.value, { opacity: 1, duration: 0.6 }, "-=0.3")
-    .call(startFloatLoop);
-}
-
-function startFloatLoop() {
-  [floatCardA.value, floatCardB.value].forEach((el, i) => {
-    if (!el) return;
-    floatTweens.push(
-      gsap.to(el, {
-        y: i === 0 ? -14 : 12,
-        duration: 3.2 + i * 0.4,
-        ease: "sine.inOut",
-        yoyo: true,
-        repeat: -1,
-      }),
-    );
-  });
+    .to(scrollHintEl.value, { opacity: 1, duration: 0.6 }, "-=0.3");
 }
 
 onBeforeUnmount(() => {
+  introTl?.kill();
   scene?.destroy();
   headingSplit?.revert();
   subtitleSplit?.revert();
-  floatTweens.forEach((t) => t.kill());
 });
 </script>
 

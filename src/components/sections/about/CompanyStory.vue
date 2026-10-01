@@ -29,7 +29,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section ref="sectionEl" class="relative overflow-hidden py-28">
+  <section ref="sectionEl" class="relative overflow-hidden py-18">
     <!-- Background Glow -->
     <div class="absolute inset-0 -z-10">
       <div
@@ -41,7 +41,7 @@ onMounted(() => {
     </div>
 
     <div
-      class="mx-auto grid max-w-7xl items-center gap-20 px-6 lg:grid-cols-2 lg:px-10"
+      class="mx-auto grid max-w-7xl items-center gap-12 px-6 lg:grid-cols-2 lg:px-10"
     >
       <!-- LEFT -->
       <div>
@@ -62,7 +62,7 @@ onMounted(() => {
           <p
             v-for="(p, i) in aboutStory.paragraphs"
             :key="i"
-            class="max-w-xl text-lg leading-8 text-slate-400"
+            class="max-w-xl text-lg leading-8 text-black"
           >
             {{ p }}
           </p>

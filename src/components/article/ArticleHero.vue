@@ -2,7 +2,7 @@
 import { computed, nextTick, onMounted, ref } from "vue";
 import { gsap } from "../../composables/gsapSetup";
 import { revealHeading } from "../../composables/useReveal";
-import { formatDate } from "../../composables/text";
+import { formatDate, slugify } from "../../composables/text";
 import { optimizedUrl } from "../../services/cloudinary";
 import CategoryChip from "../sections/blog/CategoryChip.vue";
 import AuthorAvatar from "../sections/blog/AuthorAvatar.vue";
@@ -60,48 +60,16 @@ onMounted(async () => {
 </script>
 
 <template>
-  <header class="bg-white pt-32 sm:pt-40">
+  <header class="bg-white pt-8 sm:pt-10">
     <div class="mx-auto max-w-3xl px-6 text-center lg:px-10">
       <div ref="introEl">
-        <nav
-          aria-label="Breadcrumb"
-          class="flex flex-wrap items-center justify-center gap-2 text-xs font-medium text-gray-400"
-        >
+        <div class="flex flex-wrap items-center justify-center gap-2">
           <router-link
-            :to="{ name: 'home' }"
-            class="transition-colors hover:text-gray-700"
-            >Home</router-link
+            v-if="post.category"
+            :to="`/category/${slugify(post.category)}`"
           >
-          <svg
-            viewBox="0 0 20 20"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            class="h-3 w-3 text-gray-300"
-          >
-            <path d="m8 4 6 6-6 6" />
-          </svg>
-          <router-link
-            :to="basePath"
-            class="transition-colors hover:text-gray-700"
-            >{{ listLabel }}</router-link
-          >
-          <svg
-            viewBox="0 0 20 20"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            class="h-3 w-3 text-gray-300"
-          >
-            <path d="m8 4 6 6-6 6" />
-          </svg>
-          <span class="max-w-[12rem] truncate text-gray-600 sm:max-w-xs">{{
-            post.title
-          }}</span>
-        </nav>
-
-        <div class="mt-6 flex flex-wrap items-center justify-center gap-2">
-          <CategoryChip v-if="post.category" :label="post.category" />
+            <CategoryChip :label="post.category" />
+          </router-link>
           <span
             v-if="post.difficulty"
             class="inline-flex items-center rounded-full px-3 py-1.5 text-xs font-semibold"
@@ -119,64 +87,7 @@ onMounted(async () => {
         {{ post.title }}
       </h1>
 
-      <div
-        ref="metaEl"
-        class="mt-7 flex flex-wrap items-center justify-center gap-x-5 gap-y-3 text-sm text-gray-500"
-      >
-        <div class="flex items-center gap-2.5">
-          <AuthorAvatar
-            :name="post.author || 'cryptolearner.us Team'"
-            size="sm"
-          />
-          <span class="font-medium text-gray-800">{{
-            post.author || "cryptolearner.us Team"
-          }}</span>
-        </div>
-        <span class="h-1 w-1 rounded-full bg-gray-300" />
-        <span class="flex items-center gap-1.5">
-          <svg
-            viewBox="0 0 20 20"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.6"
-            class="h-4 w-4 text-gray-400"
-          >
-            <rect x="3" y="4" width="14" height="13" rx="2" />
-            <path d="M3 8h14M7 2v4M13 2v4" />
-          </svg>
-          {{ formatDate(post.createdAt) }}
-        </span>
-        <span class="h-1 w-1 rounded-full bg-gray-300" />
-        <span class="flex items-center gap-1.5">
-          <svg
-            viewBox="0 0 20 20"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.6"
-            class="h-4 w-4 text-gray-400"
-          >
-            <circle cx="10" cy="10" r="7" />
-            <path d="M10 6v4l3 2" />
-          </svg>
-          {{ post.readingTime }} min read
-        </span>
-        <template v-if="post.views">
-          <span class="h-1 w-1 rounded-full bg-gray-300" />
-          <span class="flex items-center gap-1.5">
-            <svg
-              viewBox="0 0 20 20"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.6"
-              class="h-4 w-4 text-gray-400"
-            >
-              <path d="M2 10s2.7-5 8-5 8 5 8 5-2.7 5-8 5-8-5-8-5Z" />
-              <circle cx="10" cy="10" r="2" />
-            </svg>
-            {{ post.views.toLocaleString() }} views
-          </span>
-        </template>
-      </div>
+      
     </div>
 
     <div v-if="post.coverImage" class="mx-auto mt-10 max-w-6xl px-6 lg:px-10">

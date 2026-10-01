@@ -1,56 +1,74 @@
-import { watchEffect } from "vue";
+import { useHead } from "@unhead/vue";
 
 const SITE_NAME = "cryptolearner.us";
-const SITE_URL = import.meta.env.VITE_SITE_URL || "https://lumenledger.com";
+
+const SITE_URL = import.meta.env.VITE_SITE_URL || "https://cryptolearner.us";
+
 const DEFAULT_IMAGE = `${SITE_URL}/og-default.png`;
 
-function setTag(selector, attrs) {
-  let el = document.head.querySelector(selector);
-  if (!el) {
-    el = document.createElement(selector.startsWith("link") ? "link" : "meta");
-    document.head.appendChild(el);
-  }
-  Object.entries(attrs).forEach(([key, value]) => el.setAttribute(key, value));
-}
-
-function setMeta(name, content, { property = false } = {}) {
-  const attr = property ? "property" : "name";
-  const selector = `meta[${attr}="${name}"]`;
-  if (!content) {
-    document.head.querySelector(selector)?.remove();
-    return;
-  }
-  setTag(selector, { [attr]: name, content });
-}
-
-function setJsonLd(data) {
-  let el = document.head.querySelector("script#seo-jsonld");
-  if (!data) {
-    el?.remove();
-    return;
-  }
-  if (!el) {
-    el = document.createElement("script");
-    el.id = "seo-jsonld";
-    el.type = "application/ld+json";
-    document.head.appendChild(el);
-  }
-  el.textContent = JSON.stringify(data);
+/**
+ * Site-wide fallbacks (the values index.html used to hard-code), pushed once
+ * in main-ssg.js. Any page that calls useSeoMeta overrides them — unhead
+ * dedupes title, canonical and each meta name/property, so a page never
+ * ends up with two descriptions.
+ */
+export function defaultHead() {
+  return {
+    title:
+      "CryptoLearner.us | Learn Cryptocurrency, Blockchain, Bitcoin & Web3 for Beginners",
+    meta: [
+      {
+        name: "description",
+        content:
+          "Learn Cryptocurrency, Bitcoin, Blockchain, Ethereum, Web3, NFTs and DeFi through beginner-friendly guides, tutorials and educational resources. CryptoLearner.us makes crypto learning simple for everyone.",
+      },
+      {
+        name: "keywords",
+        content:
+          "Cryptocurrency, Bitcoin, Blockchain, Ethereum, Web3, Learn Crypto, Crypto Tutorials, Crypto Education, Bitcoin Guide, DeFi, NFTs, Crypto News, Blockchain Technology",
+      },
+      { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "CryptoLearner.us" },
+      { property: "og:url", content: "https://www.cryptolearner.us" },
+      {
+        property: "og:title",
+        content:
+          "CryptoLearner.us | Learn Cryptocurrency, Blockchain, Bitcoin & Web3",
+      },
+      {
+        property: "og:description",
+        content:
+          "Master Cryptocurrency, Bitcoin, Blockchain and Web3 with beginner-friendly tutorials, guides and educational resources.",
+      },
+      { property: "og:image", content: "https://www.cryptolearner.us/og-image.jpg" },
+      { name: "twitter:card", content: "summary_large_image" },
+      {
+        name: "twitter:title",
+        content:
+          "CryptoLearner.us | Learn Cryptocurrency, Blockchain, Bitcoin & Web3",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "Beginner-friendly Cryptocurrency and Blockchain learning platform.",
+      },
+      { name: "twitter:image", content: "https://www.cryptolearner.us/og-image.jpg" },
+    ],
+    link: [{ rel: "canonical", href: "https://www.cryptolearner.us" }],
+  };
 }
 
 /**
- * Hand-rolled head management (no vue-meta/unhead dependency): this is a
- * client-rendered SPA, so these tags exist for browser tabs, share-card
- * scrapers that execute JS, and to keep canonical/OG data correct as
- * routes change — not as a substitute for SSR meta rendering.
- *
- * `meta` can be a reactive object/ref/getter; the effect re-applies tags
- * whenever it changes (e.g. once a blog post finishes loading).
+ * Page-level SEO via vite-ssg's head manager: written into each prerendered
+ * HTML file at build time and kept in sync in the browser on navigation.
+ * `getMeta` may be a plain object or a getter that returns null while data
+ * is still loading (site defaults apply).
  */
 export function useSeoMeta(getMeta) {
-  watchEffect(() => {
+  useHead(() => {
     const meta = typeof getMeta === "function" ? getMeta() : getMeta;
-    if (!meta) return;
+
+    if (!meta) return {};
 
     const title = meta.title ? `${meta.title} — ${SITE_NAME}` : SITE_NAME;
     const description = meta.description || "";
@@ -59,25 +77,39 @@ export function useSeoMeta(getMeta) {
     const canonical = meta.canonical || url;
     const type = meta.type || "website";
 
-    document.title = title;
+    const tags = [
+      { name: "description", content: description },
+      { name: "keywords", content: meta.keywords },
+      { property: "og:title", content: title },
+      { property: "og:description", content: description },
+      { property: "og:type", content: type },
+      { property: "og:url", content: url },
+      { property: "og:image", content: image },
+      { property: "og:site_name", content: SITE_NAME },
+      { property: "article:published_time", content: meta.publishedTime },
+      { property: "article:modified_time", content: meta.modifiedTime },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: title },
+      { name: "twitter:description", content: description },
+      { name: "twitter:image", content: image },
+    ];
 
-    setMeta("description", description);
-    setMeta("keywords", meta.keywords || "");
-    setTag('link[rel="canonical"]', { rel: "canonical", href: canonical });
-
-    setMeta("og:title", title, { property: true });
-    setMeta("og:description", description, { property: true });
-    setMeta("og:type", type, { property: true });
-    setMeta("og:url", url, { property: true });
-    setMeta("og:image", image, { property: true });
-    setMeta("og:site_name", SITE_NAME, { property: true });
-
-    setMeta("twitter:card", "summary_large_image");
-    setMeta("twitter:title", title);
-    setMeta("twitter:description", description);
-    setMeta("twitter:image", image);
-
-    setJsonLd(meta.jsonLd || null);
+    return {
+      title,
+      // An empty content="" is worse than no tag at all.
+      meta: tags.filter((t) => t.content),
+      link: [{ rel: "canonical", href: canonical }],
+      script: meta.jsonLd
+        ? [
+            {
+              key: "seo-jsonld",
+              type: "application/ld+json",
+              // Escaped so article text can never close the script tag.
+              innerHTML: JSON.stringify(meta.jsonLd).replace(/</g, "\\u003c"),
+            },
+          ]
+        : [],
+    };
   });
 }
 

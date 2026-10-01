@@ -42,7 +42,7 @@ onBeforeUnmount(() => mm?.kill())
 </script>
 
 <template>
-  <section ref="sectionEl" class="relative bg-slate-50 py-24 lg:py-0">
+  <section ref="sectionEl" class="relative bg-slate-50 py-16 lg:py-0">
     <div class="mx-auto max-w-2xl px-6 text-center lg:pt-32">
       <p class="mb-4 text-sm font-semibold text-cyan-600">Five weeks, start to finish</p>
       <h2 ref="headingEl" class="font-display text-3xl font-bold leading-tight tracking-tight text-gray-900 sm:text-4xl">

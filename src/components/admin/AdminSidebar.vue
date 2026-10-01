@@ -8,6 +8,7 @@ const auth = useAuthStore();
 
 const links = [
   { to: { name: "admin-dashboard" }, label: "Dashboard", icon: "grid" },
+  { to: { name: "admin-pages" }, label: "Pages", icon: "pages" },
   { to: { name: "admin-blogs" }, label: "Blogs", icon: "book" },
   { to: { name: "admin-articles" }, label: "Articles", icon: "file" },
   { to: { name: "admin-guides" }, label: "Guide Cards", icon: "cards" },
@@ -97,6 +98,15 @@ async function onLogout() {
             v-if="link.icon === 'book'"
             d="M20 5.5C20 4.67 19.33 4 18.5 4H12v16h6.5a1.5 1.5 0 0 0 1.5-1.5v-13Z"
           />
+          <rect
+            v-if="link.icon === 'pages'"
+            x="3"
+            y="3"
+            width="18"
+            height="18"
+            rx="2"
+          />
+          <path v-if="link.icon === 'pages'" d="M3 9h18M9 21V9" />
           <path
             v-if="link.icon === 'file'"
             d="M6 3.5h8l4 4v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-16a1 1 0 0 1 1-1Z"

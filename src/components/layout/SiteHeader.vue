@@ -53,7 +53,7 @@ function toggleMenu() {
   <header
     ref="headerEl"
     class="fixed inset-x-0 top-0 z-50 transition-all duration-500"
-    :class="scrolled ? 'bg-[#c4f6f8] border-b border-black ' : 'bg-[#a4fcff]'"
+    :class="scrolled ? 'bg-[#0E407F] border-b border-black ' : 'bg-[#0E407F]'"
   >
     <div class="w-full px-3 sm:px-5 lg:px-8 xl:px-10 py-3">
       <nav
@@ -64,7 +64,7 @@ function toggleMenu() {
           :key="item.href"
           :href="item.href"
           data-cursor-hover
-          class="text-xs sm:text-sm lg:text-base font-medium text-black transition hover:text-gray-900 whitespace-nowrap"
+          class="text-xs sm:text-sm lg:text-base font-medium text-white transition hover:text-gray-900 whitespace-nowrap"
           @click.prevent="goTo(item.href)"
         >
           {{ item.label }}

@@ -5,6 +5,10 @@ node_modules/
 # Build output
 dist/
 dist.zip/
+backend/ssr/
+
+# Credentials — never commit
+serviceAccountKey.json
 
 # Environment files
 

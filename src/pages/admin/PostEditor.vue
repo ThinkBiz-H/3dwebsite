@@ -87,8 +87,10 @@ const form = reactive({
   canonicalUrl: "",
   faqs: [],
   keyTakeaways: "",
+
   guideCategory: "",
   guideCardId: "",
+  guideSection: "", // 👈 ADD THIS
 });
 
 const seoOpen = ref(false);
@@ -140,6 +142,14 @@ function onSlugInput() {
   form.slug = slugify(form.slug);
 }
 
+// A slug pasted into the SEO title would replace the readable title in the
+// browser tab and search results, so it's treated as "no SEO title" (the
+// post title is used instead) and never saved.
+const seoTitleIsSlug = computed(() => {
+  const seo = form.seoTitle.trim();
+  return !!seo && (seo === form.slug || /^[a-z0-9]+(-[a-z0-9]+)+$/.test(seo));
+});
+
 async function loadExisting() {
   const post = await api.value.getById(props.id);
   if (!post) {
@@ -170,6 +180,7 @@ async function loadExisting() {
       : "",
     guideCategory: post.guideCategory || "",
     guideCardId: post.guideCardId || "",
+    guideSection: post.guideSection || "",
   });
   views.value = post.views || 0;
   slugTouched.value = true;
@@ -194,7 +205,7 @@ function buildPayload() {
       .filter(Boolean),
     featured: form.featured,
     published: form.published,
-    seoTitle: form.seoTitle.trim(),
+    seoTitle: seoTitleIsSlug.value ? "" : form.seoTitle.trim(),
     seoDescription: form.seoDescription.trim(),
     focusKeyword: form.focusKeyword.trim(),
     ogImage: form.ogImage,
@@ -206,10 +217,29 @@ function buildPayload() {
       .filter(Boolean),
     guideCategory: form.guideCategory,
     guideCardId: form.guideCategory ? form.guideCardId : "",
+    guideSection: form.guideSection || "",
   };
 }
 
-async function persist(payload) {
+// Writes are queued so an auto-save and a manual save can't both create the
+// document before either has an id.
+let persistChain = Promise.resolve();
+
+function persist(payload) {
+  const run = persistChain.then(() => write(payload));
+  persistChain = run.catch(() => {});
+  return run;
+}
+
+async function write(payload) {
+  // Checked on every write, auto-save included. The public page loads the
+  // first post with a given slug, so a duplicate makes this post unreachable.
+  if (payload.slug && (await api.value.slugExists(payload.slug, docId.value))) {
+    form.slug = `${payload.slug}-${Date.now().toString(36)}`;
+    slugTouched.value = true;
+    payload = { ...payload, slug: form.slug };
+  }
+
   if (docId.value) {
     await api.value.update(docId.value, payload);
   } else {
@@ -230,10 +260,7 @@ async function onSave(publish) {
   errorMsg.value = "";
   saving.value = true;
   try {
-    const exists = docId.value ? true : await api.value.slugExists(form.slug);
-    if (exists && !docId.value) {
-      form.slug = `${form.slug}-${Date.now().toString(36)}`;
-    }
+    clearTimeout(autoSaveTimer);
     await persist({ ...buildPayload(), published: publish });
     form.published = publish;
     router.push({ name: listRouteName.value });
@@ -619,6 +646,10 @@ onMounted(() => {
                 :placeholder="form.title || 'Falls back to post title'"
                 class="mt-1.5 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-blue-400"
               />
+              <p v-if="seoTitleIsSlug" class="mt-1.5 text-xs text-amber-700">
+                This looks like a URL slug, not a title. It won't be saved —
+                the post title will be used instead.
+              </p>
             </div>
             <div>
               <label class="text-xs font-medium text-gray-500"

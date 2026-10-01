@@ -42,22 +42,25 @@ onMounted(() => {
 <template>
   <section
     ref="sectionEl"
-    class="relative mx-auto max-w-6xl px-6 py-24 lg:px-10 lg:py-32"
+    class="relative mx-auto max-w-6xl px-6 py-16 lg:px-10 lg:py-20"
   >
     <div
-      class="mt-8 grid grid-cols-1 items-start gap-16 lg:grid-cols-[1.1fr_0.9fr]"
+      class="mt-8 grid grid-cols-1 items-start gap-10 lg:grid-cols-[1.1fr_0.9fr]"
     >
       <!-- LEFT SIDE -->
       <div>
         <h2
           ref="headingEl"
-          class="mt-5 max-w-xl font-display text-4xl font-bold leading-tight text-slate-900 lg:text-5xl"
+          class="mt-5 max-w-xl font-display text-4xl font-bold leading-tight lg:text-5xl"
         >
-          What is Cryptocurrency?
+          <span class="text-black">What is </span>
+          <span class="text-[#0D8BF2]">Cryptocurrency?</span>
           <br />
         </h2>
 
-        <div class="mt-8 space-y-7 text-lg leading-9 text-slate-600">
+        <div
+          class="mt-8 space-y-7 text-2xl leading-9 text-[#04243E] text-justify"
+        >
           <p>
             Cryptocurrency is digital money. You can't hold it in your hand like
             cash because it exists only on computers connected through the
@@ -131,9 +134,9 @@ onMounted(() => {
 
     <!-- Investing vs trading -->
     <!-- Investing vs Trading -->
-    <div class="mt-28 border-t border-slate-200 pt-20">
+    <div class="mt-18 border-t border-slate-200 pt-20">
       <h2
-        class="max-w-2xl font-display text-4xl font-bold leading-tight text-slate-900"
+        class="max-w-2xl font-display text-4xl font-bold leading-tight text-blue-600"
       >
         {{ cryptoBasics.investingVsTrading.heading }}
       </h2>
@@ -155,7 +158,7 @@ onMounted(() => {
             :class="index === 0 ? 'lg:border-r border-slate-300' : ''"
           >
             <p
-              class="text-sm font-semibold uppercase tracking-wider text-teal-700"
+              class="text-sm font-semibold uppercase tracking-wider text-blue-700"
             >
               {{ card.label }}
             </p>
@@ -188,11 +191,9 @@ onMounted(() => {
 
     <!-- Key terms -->
     <!-- How Crypto Trading Works -->
-    <div class="mt-28">
+    <div class="mt-18">
       <div class="max-w-3xl">
-        <h3
-          class="font-display text-4xl font-bold leading-tight text-slate-900"
-        >
+        <h3 class="font-display text-4xl font-bold leading-tight text-blue-600">
           {{ cryptoBasics.howItWorks.heading }}
         </h3>
 
@@ -212,7 +213,7 @@ onMounted(() => {
         >
           <!-- Number -->
           <div
-            class="font-display text-4xl font-bold leading-none text-emerald-700"
+            class="font-display text-4xl font-bold leading-none text-blue-600"
           >
             {{ String(i + 1).padStart(2, "0") }}
           </div>

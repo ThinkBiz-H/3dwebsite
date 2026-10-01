@@ -8,7 +8,9 @@ import { getFirestore, collection, getDocs, query, where } from 'firebase/firest
 
 config()
 
-const SITE_URL = process.env.VITE_SITE_URL || 'https://lumenledger.com'
+const SITE_URL =
+  process.env.VITE_SITE_URL ||
+  "https://www.cryptolearner.us";
 
 const firebaseConfig = {
   apiKey: process.env.VITE_FIREBASE_API_KEY,

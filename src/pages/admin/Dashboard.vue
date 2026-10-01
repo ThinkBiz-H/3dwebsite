@@ -55,7 +55,13 @@ onMounted(async () => {
           An overview of everything published on cryptolearner.us.
         </p>
       </div>
-      <div class="flex gap-3">
+      <div class="flex flex-wrap gap-3">
+        <router-link
+          :to="{ name: 'admin-page-new' }"
+          class="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-slate-50"
+        >
+          New page
+        </router-link>
         <router-link
           :to="{ name: 'admin-blog-new' }"
           class="rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-700"

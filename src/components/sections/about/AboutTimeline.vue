@@ -31,7 +31,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section ref="sectionEl" class="relative bg-slate-50 px-6 py-24 lg:px-10 lg:py-32">
+  <section ref="sectionEl" class="relative bg-slate-50 px-6 py-16 lg:px-10 lg:py-20">
     <div class="mx-auto max-w-2xl text-center">
       <p class="mb-4 text-sm font-semibold text-cyan-600">How we got here</p>
       <h2 ref="headingEl" class="font-display text-3xl font-bold leading-tight tracking-tight text-gray-900 sm:text-4xl">

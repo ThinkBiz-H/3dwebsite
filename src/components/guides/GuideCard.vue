@@ -1,27 +1,37 @@
 <script setup>
-import { useRouter } from 'vue-router'
+import { useRouter } from "vue-router";
 
 const props = defineProps({
   card: { type: Object, required: true }, // { title, description, article: Object|null, ... }
   index: { type: Number, required: true },
   categoryLabel: { type: String, required: true },
-})
+});
 
-const router = useRouter()
+const router = useRouter();
 
 function open() {
-  if (props.card.article) router.push(`/articles/${props.card.article.slug}`)
+  if (!props.card.article) return;
+
+  const url = `${window.location.origin}/${props.card.category}/${props.card.article.slug}`;
+
+  window.open(url, "_blank");
 }
 </script>
 
 <template>
   <article
     class="group grid md:grid-cols-[180px_1fr] gap-6 bg-white border border-sky-100 rounded-2xl p-6 shadow-sm transition-all duration-200"
-    :class="card.article ? 'cursor-pointer hover:shadow-md hover:border-sky-300 hover:-translate-y-0.5' : ''"
+    :class="
+      card.article
+        ? 'cursor-pointer hover:shadow-md hover:border-sky-300 hover:-translate-y-0.5'
+        : ''
+    "
     @click="open"
   >
     <div class="flex md:flex-col gap-3 md:gap-2">
-      <span class="text-xs uppercase tracking-widest text-sky-700 font-semibold">
+      <span
+        class="text-xs uppercase tracking-widest text-sky-700 font-semibold"
+      >
         {{ categoryLabel }}
       </span>
       <span class="text-xs text-slate-400 font-mono md:mt-1">

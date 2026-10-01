@@ -10,7 +10,7 @@ export const hero = {
   eyebrow: "A calmer way into crypto",
   heading: ["Understand Crypto Before You Put A Single Dollar Into It."],
   subtitle:
-    "We explain how crypto trading actually works — the good parts and the bad parts . No hype. No price predictions. No pressure to buy anything.",
+    "We explain how crypto trading actually works — the good parts and the bad parts. No hype. No price predictions. No pressure to buy anything.",
   primaryCta: "Start learning free",
   secondaryCta: "See the Risks first",
   scrollHint: "Scroll to explore",
@@ -32,7 +32,7 @@ export const features = [
   {
     title: "You control your own money",
     description:
-      "With self custody, nobody can freeze your account or block a transaction.",
+      "With self-custody, nobody can freeze your account or block a transaction.",
     icon: "wallet",
   },
   {
@@ -336,7 +336,6 @@ export const aboutAuthors = {
       bio: "Advises everyday consumers on financial fraud prevention. Leads our Safety & Scams coverage.",
     },
   ],
-  note: "Placeholder names shown for structure only. Replace with real author photos, names, and credentials before launch.",
 };
 
 export const neverDo = {
@@ -369,7 +368,7 @@ export const aboutContact = {
   options: [
     {
       label: "Call",
-      title: "+1 (800) 555-1234",
+      title: "+1 (213) 538-2554",
       detail: "Mon–Fri, 9am–6pm ET",
       icon: "pulse",
     },
@@ -493,7 +492,7 @@ export const contactHero = {
 export const contactInfo = [
   {
     title: "Call",
-    detail: "+1 (800) 555-1234",
+    detail: "+1 (213) 538-2554",
     description: "Mon–Fri, 9am–6pm ET.",
     icon: "pulse",
   },
@@ -552,7 +551,7 @@ export const contactWriters = {
   heading: "Who Writes for CryptoLearner",
   people: [
     {
-      name: "Maria Ortiz",
+      name: "Maria Ortiz1",
       credential: "CFA, 9 years in financial writing",
       bio: "Former equity research associate. Covers fundamentals, market structure, and how to evaluate an asset before buying it.",
     },
@@ -562,7 +561,6 @@ export const contactWriters = {
       bio: "Advises everyday consumers on financial fraud prevention. Leads our Safety & Scams coverage.",
     },
   ],
-  note: "Add real author bios and photos here before publishing — placeholder names shown for structure only.",
 };
 
 export const contactNeverDo = {
@@ -683,7 +681,7 @@ export const cryptoBasics = {
     ],
   },
   investingVsTrading: {
-    heading: "What is crypto trading?.",
+    heading: "What is crypto trading?",
     cards: [
       {
         label: "01 — Investing",
@@ -798,7 +796,7 @@ export const trustStrip = {
     'We will never tell you a coin is "guaranteed" to go up.',
     "We will never accept payment to favor one exchange or coin.",
     "We will always show risks alongside benefits, every time.",
-    "We will keep content dated and reviewed by credentialed people.",
+    "We cite official sources and show when each article was published and updated.",
   ],
   disclaimer:
     "This website provides general educational information about cryptocurrency and is not financial, investment, tax, or legal advice. Cryptocurrency investments are highly volatile and carry a real risk of partial or total loss. Always do your own research and consult a licensed financial advisor before making any investment decision.",
@@ -849,7 +847,7 @@ export const footer = {
   legal:
     "© " +
     new Date().getFullYear() +
-    " cryptolearner.us . Educational content only — not financial advice.",
+    " cryptolearner.us Educational content only — not financial advice.",
 };
 export const prosCons = {
   heading: "Pros vs. Cons, Side by Side",

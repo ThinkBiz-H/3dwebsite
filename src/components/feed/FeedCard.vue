@@ -145,44 +145,9 @@ onBeforeUnmount(() => window.removeEventListener("click", closeShare));
           <path d="M10 6v4l3 2" />
         </svg>
         {{ post.readingTime }} min read
-        <span class="h-1 w-1 rounded-full bg-gray-300" />
-        <svg
-          viewBox="0 0 20 20"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.6"
-          class="h-4 w-4"
-        >
-          <path d="M2 10s2.7-5 8-5 8 5 8 5-2.7 5-8 5-8-5-8-5Z" />
-          <circle cx="10" cy="10" r="2" />
-        </svg>
-        {{ (post.views || 0).toLocaleString() }}
       </div>
 
       <div class="flex items-center gap-1.5">
-        <button
-          type="button"
-          data-cursor-hover
-          :aria-pressed="isLiked(post.id)"
-          :aria-label="isLiked(post.id) ? 'Unlike' : 'Like this article'"
-          class="flex h-9 items-center gap-1.5 rounded-full px-3 text-xs font-semibold transition-all duration-300 hover:bg-slate-50"
-          :class="isLiked(post.id) ? 'text-rose-600' : 'text-gray-500'"
-          @click="onLikeClick"
-        >
-          <svg
-            viewBox="0 0 20 20"
-            :fill="isLiked(post.id) ? 'currentColor' : 'none'"
-            stroke="currentColor"
-            stroke-width="1.6"
-            class="h-4 w-4"
-          >
-            <path
-              d="M10 17.3 3.6 11c-2-2-2-5 0-6.8 1.9-1.7 4.6-1.3 6.1.6L10 5.3l.3-.5c1.5-1.9 4.2-2.3 6.1-.6 2 1.8 2 4.8 0 6.8L10 17.3Z"
-            />
-          </svg>
-          {{ post.likes || 0 }}
-        </button>
-
         <button
           type="button"
           data-cursor-hover

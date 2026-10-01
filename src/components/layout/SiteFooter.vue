@@ -1,7 +1,7 @@
 <script setup>
 import { footer } from "../../data/content";
 import { useSiteNav } from "../../composables/useSiteNav";
-import logo from "../../assets/logo2.png";
+import logo from "../../assets/logoj1.png";
 
 const { goTo } = useSiteNav();
 </script>
@@ -13,38 +13,37 @@ const { goTo } = useSiteNav();
     <div class="mx-auto max-w-7xl">
       <div class="grid grid-cols-2 gap-10 pb-16 md:grid-cols-6">
         <div class="col-span-2">
-          <img :src="logo" alt="Logo" class="h-14 w-auto object-contain" />
+          <img :src="logo" alt="Logo" class="h-36 w-auto object-contain" />
+
           <p class="mt-3 max-w-xs text-sm leading-relaxed text-gray-500">
             {{ footer.tagline }}
           </p>
         </div>
 
         <div v-for="col in footer.columns" :key="col.title">
-          <h4 class="text-sm font-semibold text-gray-900">{{ col.title }}</h4>
+          <h4 class="text-sm font-semibold text-blue-600">
+            {{ col.title }}
+          </h4>
+
           <ul class="mt-4 space-y-3">
             <li v-for="link in col.links" :key="link.label">
-              <a
-                href="#"
+              <button
+                type="button"
                 data-cursor-hover
-                class="text-sm text-gray-500 transition-colors hover:text-blue-600"
-                @click.prevent="goTo(link.href)"
+                class="text-sm font-bold text-gray-500 transition-colors hover:text-black text-left"
+                @click="goTo(link.href)"
               >
                 {{ link.label }}
-              </a>
+              </button>
             </li>
           </ul>
         </div>
       </div>
 
       <div
-        class="flex flex-col items-start justify-between gap-4 border-t border-slate-200 pt-8 text-xs text-gray-400 md:flex-row md:items-center"
+        class="border-t border-slate-200 pt-8 text-center text-xs text-gray-400"
       >
         <p>{{ footer.legal }}</p>
-        <div class="flex gap-6">
-          <a href="#" data-cursor-hover class="hover:text-gray-700">Twitter</a>
-          <a href="#" data-cursor-hover class="hover:text-gray-700">LinkedIn</a>
-          <a href="#" data-cursor-hover class="hover:text-gray-700">Discord</a>
-        </div>
       </div>
     </div>
   </footer>

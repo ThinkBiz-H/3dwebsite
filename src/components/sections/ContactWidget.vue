@@ -63,7 +63,7 @@ onUnmounted(() => {
       <div
         v-if="open"
         ref="panel"
-        class="fixed bottom-24 right-6 z-[999999] w-[360px] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_30px_80px_rgba(0,0,0,.22)]"
+        class="fixed bottom-24 right-4 left-4 z-[999999] w-auto max-w-[380px] sm:left-auto sm:right-6 sm:w-[360px] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_30px_80px_rgba(0,0,0,.22)]"
       >
         <div class="p-6">
           <p
@@ -94,7 +94,7 @@ onUnmounted(() => {
 
           <div>
             <h4 class="font-semibold">Call Us</h4>
-            <p class="text-sm text-slate-500">+1 (800) 555-1234</p>
+            <p class="text-sm text-slate-500">+1 (213) 538-2554</p>
           </div>
         </a>
 

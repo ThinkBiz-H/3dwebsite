@@ -1,7 +1,13 @@
 <script setup>
 import { ref } from "vue";
 import GuideCardGrid from "../components/guides/GuideCardGrid.vue";
-
+import { useSeoMeta } from "../composables/useSeoMeta";
+useSeoMeta({
+  title: "Crypto Taxes Guide | Learn About Crypto Tax",
+  description:
+    "Learn about crypto taxes with Cryptolearner. Understand crypto tax basics, taxable transactions, reporting, gains, losses, and record keeping.",
+  path: "/taxes",
+});
 const panelOpen = ref(false);
 </script>
 

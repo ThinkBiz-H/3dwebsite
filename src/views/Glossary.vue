@@ -1,7 +1,13 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
 import GlossaryCardGrid from "../components/guides/GlossaryCardGrid.vue";
-
+import { useSeoMeta } from "../composables/useSeoMeta";
+useSeoMeta({
+  title: "Crypto Glossary | Crypto Terms & Definitions",
+  description:
+    "Explore the Cryptolearner glossary to understand crypto terms and definitions, from Bitcoin and blockchain to Web3, DeFi, NFTs, wallets, and more.",
+  path: "/glossary",
+});
 const showContact = ref(false);
 const fabRef = ref(null);
 const panelRef = ref(null);
@@ -141,7 +147,7 @@ onUnmounted(() => document.removeEventListener("click", handleOutsideClick));
             <div class="text-sm">
               <b class="block text-slate-800">Call us</b>
               <span class="text-slate-500">
-                +1 (800) 555-1234 · Mon–Fri, 9am–6pm ET
+                +1 (213) 538-2554 · Mon–Fri, 9am–6pm ET
               </span>
             </div>
           </a>

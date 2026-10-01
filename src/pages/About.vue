@@ -5,8 +5,6 @@ import PageHero from "../components/sections/PageHero.vue";
 import CompanyStory from "../components/sections/about/CompanyStory.vue";
 import EditorialProcess from "../components/sections/about/EditorialProcess.vue";
 
-import AuthorsGrid from "../components/sections/about/AuthorsGrid.vue";
-
 import NeverList from "../components/sections/about/NeverList.vue";
 
 import CorrectionsPolicy from "../components/sections/about/CorrectionsPolicy.vue";
@@ -15,8 +13,9 @@ import ClosingQuote from "../components/sections/about/ClosingQuote.vue";
 import CtaBanner from "../components/sections/CtaBanner.vue";
 
 useSeoMeta({
-  title: "About",
-  description: aboutHero.subtitle,
+  title: "About Cryptolearner | Simple Crypto Education",
+  description:
+    "Learn about Cryptolearner and our mission to make Bitcoin, blockchain, Web3, Ethereum, NFTs, and DeFi easier to understand for everyone.",
   path: "/about",
 });
 </script>
@@ -29,8 +28,6 @@ useSeoMeta({
   />
   <CompanyStory />
   <EditorialProcess />
-
-  <AuthorsGrid />
 
   <NeverList />
 

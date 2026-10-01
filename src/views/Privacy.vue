@@ -1,4 +1,11 @@
 <script setup>
+import { useSeoMeta } from "../composables/useSeoMeta";
+useSeoMeta({
+  title: "Privacy Policy | Cryptolearner",
+  description:
+    "Read the Cryptolearner Privacy Policy to learn how we collect, use, protect, and manage information when you visit and use our website.",
+  path: "/privacy",
+});
 const sections = [
   {
     title: "Information We Collect",
@@ -129,7 +136,7 @@ const sections = [
               >
                 Email
               </h3>
-              <p class="text-sky-700 font-medium">privacy@cryptolearn.com</p>
+              <p class="text-sky-700 font-medium">support@cryptolearner.us</p>
             </div>
 
             <div
@@ -140,7 +147,9 @@ const sections = [
               >
                 Website
               </h3>
-              <p class="text-sky-700 font-medium">https://cryptolearn.com</p>
+              <p class="text-sky-700 font-medium">
+                https://www.cryptolearner.us
+              </p>
             </div>
           </div>
         </article>

@@ -53,13 +53,18 @@ watch([search, category, sortBy, activeSidebar], () => {
 const feedPosts = computed(() => {
   const q = search.value.trim().toLowerCase();
   const base = posts.value.filter((p) => {
+    // Guide se linked articles Articles page par mat dikhao
+    if (p.guideCardId) return false;
+
     if (
       q &&
       !p.title?.toLowerCase().includes(q) &&
       !p.description?.toLowerCase().includes(q)
     )
       return false;
+
     if (category.value !== "all" && p.category !== category.value) return false;
+
     return true;
   });
 
@@ -81,8 +86,10 @@ const feedPosts = computed(() => {
 });
 
 const displayPosts = computed(() => {
-  if (activeSidebar.value === "featured")
-    return posts.value.filter((p) => p.featured);
+  if (activeSidebar.value === "featured") {
+    return posts.value.filter((p) => p.featured && !p.guideCardId);
+  }
+
   return feedPosts.value;
 });
 
@@ -198,7 +205,7 @@ useSeoMeta(() => ({
             <span
               class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-gray-500 shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
             >
-              {{ loading ? "…" : posts.length }} Reports
+              {{ loading ? "…" : displayPosts.length }} Reports
             </span>
           </div>
           <p class="mt-2 max-w-lg text-sm leading-relaxed text-gray-500">
@@ -212,12 +219,6 @@ useSeoMeta(() => ({
         </div>
       </div>
 
-      <TrendingTicker
-        v-if="tickerItems.length"
-        :items="tickerItems"
-        class="mt-8"
-      />
-
       <p
         v-if="error"
         class="mt-8 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800"
@@ -230,7 +231,7 @@ useSeoMeta(() => ({
         <Sidebar
           v-model="activeSidebar"
           :categories="sidebarCategories"
-          :posts="posts"
+          :posts="displayPosts"
         />
 
         <div class="min-w-0">

@@ -1,16 +1,18 @@
 <script setup>
-import { useRouter } from 'vue-router'
-import { useGuideCards } from '../../composables/useGuideCards'
+import { useRouter } from "vue-router";
+import { useGuideCards } from "../../composables/useGuideCards";
 
 const props = defineProps({
   category: { type: String, required: true },
-})
+});
 
-const router = useRouter()
-const { cards, loading, error } = useGuideCards(props.category)
+const router = useRouter();
+const { cards, loading, error } = useGuideCards(props.category);
 
 function open(card) {
-  if (card.article) router.push(`/articles/${card.article.slug}`)
+  if (!card.article) return;
+
+  window.open(`/${props.category}/${card.article.slug}`, "_blank");
 }
 </script>
 
@@ -30,11 +32,17 @@ function open(card) {
       </div>
     </div>
 
-    <p v-else-if="error" class="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+    <p
+      v-else-if="error"
+      class="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800"
+    >
       {{ error }}
     </p>
 
-    <p v-else-if="!cards.length" class="rounded-2xl border border-sky-100 bg-white px-6 py-10 text-center text-sm text-slate-500">
+    <p
+      v-else-if="!cards.length"
+      class="rounded-2xl border border-sky-100 bg-white px-6 py-10 text-center text-sm text-slate-500"
+    >
       New terms are added regularly.
     </p>
 
@@ -43,7 +51,11 @@ function open(card) {
         v-for="card in cards"
         :key="card.id"
         class="group bg-white border border-sky-100 rounded-2xl p-6 shadow-sm transition-all duration-200"
-        :class="card.article ? 'cursor-pointer hover:shadow-md hover:border-sky-300 hover:-translate-y-0.5' : ''"
+        :class="
+          card.article
+            ? 'cursor-pointer hover:shadow-md hover:border-sky-300 hover:-translate-y-0.5'
+            : ''
+        "
         @click="open(card)"
       >
         <h3

@@ -50,10 +50,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <section ref="sectionEl" class="py-24">
+  <section ref="sectionEl" class="py-16">
     <div class="mx-auto max-w-7xl px-6 lg:px-10">
-      <h2 ref="headingEl" class="mt-4 text-4xl font-bold text-slate-900">
-        Pros vs. Cons, Side by Side
+      <h2 ref="{headingEl}" className="mt-4 text-4xl font-bold">
+        <span className="text-[#EF6E2E]">Pros vs. Cons, </span>
+        <span className="text-[#351403]">Side by Side</span>
       </h2>
 
       <p class="mt-5 max-w-2xl text-lg text-slate-600">

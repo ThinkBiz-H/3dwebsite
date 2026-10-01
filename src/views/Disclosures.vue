@@ -1,4 +1,11 @@
 <script setup>
+import { useSeoMeta } from "../composables/useSeoMeta";
+useSeoMeta({
+  title: "Crypto Disclosures | Transparency & Important Information",
+  description:
+    "Explore Cryptolearner’s disclosures for important information about our content, crypto risks, educational resources, and transparency practices.",
+  path: "/disclosures",
+});
 const disclosures = [
   {
     title: "Educational Purpose",
@@ -135,9 +142,7 @@ const disclosures = [
               >
                 Email
               </h3>
-              <p class="text-sky-700 font-medium">
-                disclosures@cryptolearn.com
-              </p>
+              <p class="text-sky-700 font-medium">support@cryptolearner.us</p>
             </div>
 
             <div
@@ -148,7 +153,9 @@ const disclosures = [
               >
                 Website
               </h3>
-              <p class="text-sky-700 font-medium">https://cryptolearn.com</p>
+              <p class="text-sky-700 font-medium">
+                https://www.cryptolearner.us
+              </p>
             </div>
           </div>
         </article>

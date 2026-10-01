@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, reactive, ref } from 'vue'
-import draggable from 'vuedraggable'
+import { VueDraggable } from 'vue-draggable-plus'
 import { GUIDE_CATEGORIES } from '../../composables/guideCategories'
 import { listGuideCards, updateGuideCard, deleteGuideCard, reorderGuideCards } from '../../services/guideCards'
 import ConfirmModal from '../../components/admin/ConfirmModal.vue'
@@ -9,7 +9,7 @@ const loading = ref(true)
 const error = ref('')
 const pendingDelete = ref(null)
 
-// One reactive array per category, so `<draggable>` can bind (and reorder)
+// One reactive array per category, so `<VueDraggable>` can bind (and reorder)
 // each group independently without touching the others.
 const groups = reactive(Object.fromEntries(GUIDE_CATEGORIES.map((c) => [c.value, []])))
 
@@ -102,54 +102,51 @@ onMounted(load)
 
         <p v-if="!groups[cat.value].length" class="px-5 py-6 text-sm text-gray-400">No cards in this category yet.</p>
 
-        <draggable
+        <VueDraggable
           v-else
           v-model="groups[cat.value]"
-          item-key="id"
           handle=".drag-handle"
           class="divide-y divide-slate-100"
           @end="onReorder(cat.value)"
         >
-          <template #item="{ element: card }">
-            <div class="flex items-center gap-3 px-5 py-3">
-              <button type="button" class="drag-handle cursor-grab text-gray-300 hover:text-gray-400" aria-label="Drag to reorder">
-                <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
-                  <circle cx="7" cy="5" r="1.3" /><circle cx="13" cy="5" r="1.3" />
-                  <circle cx="7" cy="10" r="1.3" /><circle cx="13" cy="10" r="1.3" />
-                  <circle cx="7" cy="15" r="1.3" /><circle cx="13" cy="15" r="1.3" />
-                </svg>
-              </button>
+          <div v-for="card in groups[cat.value]" :key="card.id" class="flex items-center gap-3 px-5 py-3">
+            <button type="button" class="drag-handle cursor-grab text-gray-300 hover:text-gray-400" aria-label="Drag to reorder">
+              <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
+                <circle cx="7" cy="5" r="1.3" /><circle cx="13" cy="5" r="1.3" />
+                <circle cx="7" cy="10" r="1.3" /><circle cx="13" cy="10" r="1.3" />
+                <circle cx="7" cy="15" r="1.3" /><circle cx="13" cy="15" r="1.3" />
+              </svg>
+            </button>
 
-              <div class="min-w-0 flex-1">
-                <p class="truncate text-sm font-medium text-gray-900">{{ card.title }}</p>
-                <p class="truncate font-mono text-xs text-gray-400">{{ card.cardId }}</p>
-              </div>
-
-              <button
-                type="button"
-                class="shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold transition-colors"
-                :class="card.enabled ? 'bg-cyan-50 text-cyan-700 hover:bg-cyan-100' : 'bg-slate-100 text-gray-400 hover:bg-slate-200'"
-                @click="toggleEnabled(card)"
-              >
-                {{ card.enabled ? 'Enabled' : 'Disabled' }}
-              </button>
-
-              <router-link
-                :to="{ name: 'admin-guide-edit', params: { id: card.id } }"
-                class="shrink-0 text-xs font-medium text-gray-500 hover:text-gray-900"
-              >
-                Edit
-              </router-link>
-              <button
-                type="button"
-                class="shrink-0 text-xs font-medium text-red-500 hover:text-red-600"
-                @click="confirmDelete(card)"
-              >
-                Delete
-              </button>
+            <div class="min-w-0 flex-1">
+              <p class="truncate text-sm font-medium text-gray-900">{{ card.title }}</p>
+              <p class="truncate font-mono text-xs text-gray-400">{{ card.cardId }}</p>
             </div>
-          </template>
-        </draggable>
+
+            <button
+              type="button"
+              class="shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold transition-colors"
+              :class="card.enabled ? 'bg-cyan-50 text-cyan-700 hover:bg-cyan-100' : 'bg-slate-100 text-gray-400 hover:bg-slate-200'"
+              @click="toggleEnabled(card)"
+            >
+              {{ card.enabled ? 'Enabled' : 'Disabled' }}
+            </button>
+
+            <router-link
+              :to="{ name: 'admin-guide-edit', params: { id: card.id } }"
+              class="shrink-0 text-xs font-medium text-gray-500 hover:text-gray-900"
+            >
+              Edit
+            </router-link>
+            <button
+              type="button"
+              class="shrink-0 text-xs font-medium text-red-500 hover:text-red-600"
+              @click="confirmDelete(card)"
+            >
+              Delete
+            </button>
+          </div>
+        </VueDraggable>
       </div>
     </div>
 

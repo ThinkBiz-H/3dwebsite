@@ -40,11 +40,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <section ref="sectionEl" class="py-24" :class="transparent ? '' : 'bg-slate-50'">
+  <section
+    ref="sectionEl"
+    class="py-16"
+    :class="transparent ? '' : 'bg-slate-50'"
+  >
     <div class="mx-auto max-w-7xl px-6 lg:px-10">
-      
-
-      <h2 ref="headingEl" class="mt-4 text-4xl font-bold text-slate-900">
+      <h2 ref="{headingEl}" className="mt-4 text-4xl font-bold text-[#31AB08]">
         Crypto terms every beginner should know
       </h2>
 
@@ -59,7 +61,7 @@ onMounted(() => {
           :key="term.title"
           class="rounded-3xl border border-slate-200 bg-white p-8 transition duration-300 hover:-translate-y-1 hover:shadow-xl"
         >
-          <h3 class="text-2xl font-bold text-slate-900">
+          <h3 class="text-2xl font-bold text-[#31AB08]">
             {{ term.title }}
           </h3>
 
